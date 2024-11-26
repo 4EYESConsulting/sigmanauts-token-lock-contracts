@@ -237,7 +237,8 @@
             allOf(Coll(
                 validBeneficiaryOut,
                 validTokenLockBurn,
-                validSigmanautsFee(sigmanautsFeeOut)
+                validSigmanautsFee(sigmanautsFeeOut),
+                isKeysCreated
             ))           
 
         }
