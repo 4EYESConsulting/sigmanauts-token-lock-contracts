@@ -10,7 +10,7 @@
     // 1. (TokenLockId, 1L)
     // Registers
     // R4: GroupElement     BenefactorGE
-    // R5: (Long, Boolean)   KeyInfo
+    // R5: (Long, Boolean)  KeyInfo
 
     // ===== Transactions ===== //
     // 1. Create Token Lock Keys
@@ -21,12 +21,22 @@
 
     // ===== Compile Time Constants ($) ===== //
     // $sigmanautsFeeAddressBytesHash: Coll[Byte]
+    // $sigmanautsFee: Long
 
     // ===== Context Variables (_) ===== //
     // _action: Int
 
     // ===== Functions ===== //
-    // None
+    // def validSigmanautsFee: Box => Boolean
+
+    def validSigmanautsFee(fee: Box): Boolean = {
+
+        allOf(Coll(
+            (fee.value >= $sigmanautsFee),
+            (blake2b256(fee.propositionBytes) == $sigmanautsFeeAddressBytesHash)
+        ))
+
+    }
 
     // ===== Global Variables ===== //
     val tokenLockId: Coll[Byte] = SELF.tokens(0)._1
@@ -41,8 +51,9 @@
         val validCreateTokenLockKeysTx: Boolean = {
 
             // Outputs
-            val tokenLockOut: Box = OUTPUTS(0)
-            val issuanceOut: Box = OUTPUTS(1)
+            val tokenLockOut: Box       = OUTPUTS(0)
+            val issuanceOut: Box        = OUTPUTS(1)
+            val sigmanautsFeeOut: Box   = OUTPUTS(2)
 
             val validSelfRecreation: Boolean = {
 
@@ -82,7 +93,8 @@
                 validSelfRecreation,
                 validKeyInfoUpdate,
                 validKeyMint,
-                !isKeysCreated
+                !isKeysCreated,
+                validSigmanautsFee(sigmanautsFeeOut)
             ))
 
         }
