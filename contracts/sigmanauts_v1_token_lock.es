@@ -24,6 +24,11 @@
     // Data Inputs: None
     // Outputs: TokenLock, SigmanautsFee
     // Context Variables: Action
+    // 3. Benefactor Redeem
+    // Inputs: TokenLock, Benefactor
+    // Data Inputs: None
+    // Outputs: TokenLock, SigmanautsFee
+    // Context Variables: Action
 
     // ===== Compile Time Constants ($) ===== //
     // $sigmanautsFeeAddressBytesHash: Coll[Byte]
@@ -52,6 +57,7 @@
     val keyAmount: Long                 = keyData.get._1
     val isKeysCreated: Boolean          = keyData.get._2
     val keyTokenId: Coll[Byte]          = SELF.R6[Coll[Byte]].get
+    val isBenefactorRedeem: Boolean     = SELF.R7[Boolean].get
     val _action: Int                    = getVar[Int](0).get
 
     if (_action == 1) {
@@ -68,7 +74,8 @@
                 allOf(Coll(
                     (tokenLockOut.value == SELF.value),
                     (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
-                    (tokenLockOut.R4[GroupElement].get == benefactorGE)
+                    (tokenLockOut.R4[GroupElement].get == benefactorGE),
+                    (tokenLockOut.R7[Boolean].get == isBenefactorRedeem)
                 ))
 
             }
@@ -132,7 +139,8 @@
                     (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
                     (tokenLockOut.R4[GroupElement].get == benefactorGE),
                     (tokenLockOut.R5[(Int, Boolean)].get == keyInfo),
-                    (tokenLockOut.R6[Coll[Byte]].get == keyTokenId)
+                    (tokenLockOut.R6[Coll[Byte]].get == keyTokenId),
+                    (tokenLockOut.R7[Boolean] == isBenefactorRedeem)
                 ))
 
             }
@@ -160,14 +168,29 @@
             allOf(Coll(
                 validSelfRecreation,
                 validBenefactorIn,
-                validBenefactorOut
+                validBenefactorOut,
                 validFund,
+                validSigmanautsFee(sigmanautsFeeOut),
                 isKeysCreated
             ))               
 
         }
 
         sigmaProp(validFundTokenLockTx) && benefactorSigmaProp
+
+    } else if (_action == 3) {
+
+        val validBenefactorRedeemTx: Boolean = {
+
+            // Outputs
+            val tokenLockOut: Box = OUTPUTS(0)
+            val sigmanautsFeeOut: Box = OUTPUTS(1)
+
+            
+
+        }
+
+        sigmaProp(validBenefactorRedeemTx) && benefactorSigmaProp
 
     } else {
         sigmaProp(false)
