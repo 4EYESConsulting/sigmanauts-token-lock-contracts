@@ -27,7 +27,12 @@
     // 3. Benefactor Redeem
     // Inputs: TokenLock, Benefactor
     // Data Inputs: None
-    // Outputs: TokenLock, SigmanautsFee
+    // Outputs: Benefactor, SigmanautsFee
+    // Context Variables: Action
+    // 4. Beneficiary Redeem
+    // Inputs: TokenLock, Beneficiary
+    // Data Inputs: None
+    // Outputs: Beneficiary, SigmanautsFee
     // Context Variables: Action
 
     // ===== Compile Time Constants ($) ===== //
@@ -145,24 +150,6 @@
 
             }
 
-            // val validBenefactorIn: Boolean = {
-
-            //     INPUTS.filter({ (input: Box) => 
-            //         (input.R6[Coll[Byte]].get == keyTokenId) && 
-            //         (input.propositionBytes == benefactorSigmaProp.propBytes)
-            //     }).size == 1
-
-            // }
-
-            // val validBenefactorOut: Boolean = {
-
-            //     OUTPUTS.filter({ (output: Box) => 
-            //         (output.R6[Coll[Byte]].get == keyTokenId) && 
-            //         (output.propositionBytes == benefactorSigmaProp.propBytes)
-            //     }).size == 1                
-
-            // }
-
             val validFund: Boolean = (delta > 0)
 
             allOf(Coll(
@@ -212,6 +199,50 @@
         }
 
         sigmaProp(validBenefactorRedeemTx) && benefactorSigmaProp
+
+    } else if (_action == 4) {
+
+        val validBeneficiaryRedeemTx: Boolean = {
+
+            // Inputs
+            val beneficiaryIn: Box = INPUTS.filter({ (input: Box) => 
+                input.tokens.exists({ (t: (Coll[Byte], Long)) =>
+                    (t._1 == keyTokenId)
+                })
+            })(0)
+
+            // Outputs
+            val beneficiaryOut: Box = OUTPUTS(0)
+            val sigmanautsFeeOut: Box = OUTPUTS(1)
+
+            val validBeneficiaryOut: Boolean = {
+
+                allOf(Coll(
+                    (beneficiaryOut.value == SELF.value - $sigmanautsFee),
+                    (beneficiaryOut.propositionBytes == beneficiaryIn.propositionBytes)
+                ))             
+
+            }
+
+            val validTokenLockBurn: Boolean = {
+
+                OUTPUTS.forall({ (output: Box) =>
+                    output.tokens.forall({ (t: (Coll[Byte], Long)) =>
+                        (t._1 != tokenLockId)
+                    })
+                })
+
+            }
+
+            allOf(Coll(
+                validBeneficiaryOut,
+                validTokenLockBurn,
+                validSigmanautsFee(sigmanautsFeeOut)
+            ))           
+
+        }
+
+        sigmaProp(validBeneficiaryRedeemTx)
 
     } else {
         sigmaProp(false)
