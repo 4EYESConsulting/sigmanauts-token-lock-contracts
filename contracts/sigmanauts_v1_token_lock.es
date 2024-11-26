@@ -12,6 +12,7 @@
     // R4: GroupElement     BenefactorGE
     // R5: (Long, Boolean)  KeyInfo
     // R6: Coll[Byte]       KeyTokenId
+    // R7: Boolean          IsBenefactorRedeem
 
     // ===== Transactions ===== //
     // 1. Create Token Lock Keys
@@ -192,7 +193,8 @@
             allOf(Coll(
                 validBenefactorOut,
                 validTokenLockBurn,
-                validSigmanautsFee(sigmanautsFeeOut)
+                validSigmanautsFee(sigmanautsFeeOut),
+                isBenefactorRedeem
             ))
             
 
