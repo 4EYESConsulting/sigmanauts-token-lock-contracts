@@ -170,7 +170,7 @@
 
     } else if (_action == 3) {
 
-        // this action allow the benefactor to redeem ERG in contract by burning the keys
+        // this action allows the benefactor to redeem ERG in contract
 
         val validBenefactorRedeemTx: Boolean = {
 
@@ -211,7 +211,7 @@
 
     } else if (_action == 4) {
 
-        // this action is the same as action 3 but the beneficiary is the key holder rather than the benefactor as in the register
+        // this action is the same as action 3 but the beneficiary/redeemer is the key holder
 
         val validBeneficiaryRedeemTx: Boolean = {
 
