@@ -69,6 +69,8 @@
 
     if (_action == 1) {
 
+        // one time mint of keys
+
         val validCreateTokenLockKeysTx: Boolean = {
 
             // Outputs
@@ -96,6 +98,7 @@
 
             }
 
+            // validates token is minted to benefactor
             val validKeyMint: Boolean = {
 
                 val validIssuance: Boolean = {
@@ -130,6 +133,8 @@
 
     } else if (_action == 2) {
 
+        // this action allow only the benefactor to add more ERG to the contract
+
         val validFundTokenLockTx: Boolean = {
 
             // Outputs
@@ -142,7 +147,6 @@
             val validSelfRecreation: Boolean = {
 
                 allOf(Coll(
-                    (tokenLockOut.value == SELF.value),
                     (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
                     (tokenLockOut.R4[GroupElement].get == benefactorGE),
                     (tokenLockOut.R5[(Long, Boolean)].get == keyInfo),
@@ -165,6 +169,8 @@
         sigmaProp(validFundTokenLockTx) && benefactorSigmaProp
 
     } else if (_action == 3) {
+
+        // this action allow the benefactor to redeem ERG in contract by burning the keys
 
         val validBenefactorRedeemTx: Boolean = {
 
@@ -204,6 +210,8 @@
         sigmaProp(validBenefactorRedeemTx) && benefactorSigmaProp
 
     } else if (_action == 4) {
+
+        // this action is the same as action 3 but the beneficiary is the key holder rather than the benefactor as in the register
 
         val validBeneficiaryRedeemTx: Boolean = {
 
