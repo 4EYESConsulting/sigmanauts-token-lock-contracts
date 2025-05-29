@@ -4,6 +4,7 @@
     // Description: This contract manages the funds deposited by the benefactor.
     // Version: 1.0.0
     // Author: Luca D'Angelo (ldgaetano@protonmail.com)
+    // Reviewed by: mgpai22@github.com
 
     // ===== Box Contents ===== //
     // Tokens
@@ -60,8 +61,8 @@
     val benefactorGE: GroupElement      = SELF.R4[GroupElement].get
     val benefactorSigmaProp: SigmaProp  = proveDlog(benefactorGE)
     val keyInfo: (Long, Boolean)        = SELF.R5[(Long, Boolean)].get
-    val keyAmount: Long                 = keyData.get._1
-    val isKeysCreated: Boolean          = keyData.get._2
+    val keyAmount: Long                 = keyInfo._1
+    val isKeysCreated: Boolean          = keyInfo._2
     val keyTokenId: Coll[Byte]          = SELF.R6[Coll[Byte]].get
     val isBenefactorRedeem: Boolean     = SELF.R7[Boolean].get
     val _action: Int                    = getVar[Int](0).get
@@ -144,9 +145,9 @@
                     (tokenLockOut.value == SELF.value),
                     (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
                     (tokenLockOut.R4[GroupElement].get == benefactorGE),
-                    (tokenLockOut.R5[(Int, Boolean)].get == keyInfo),
+                    (tokenLockOut.R5[(Long, Boolean)].get == keyInfo),
                     (tokenLockOut.R6[Coll[Byte]].get == keyTokenId),
-                    (tokenLockOut.R7[Boolean] == isBenefactorRedeem)
+                    (tokenLockOut.R7[Boolean].get == isBenefactorRedeem)
                 ))
 
             }
