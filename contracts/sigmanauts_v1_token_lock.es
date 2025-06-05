@@ -4,17 +4,18 @@
     // Description: This contract manages the funds deposited by the benefactor.
     // Version: 1.0.0
     // Author: Luca D'Angelo (ldgaetano@protonmail.com)
-    // Reviewed by: mgpai22@github.com
+    // Reviewer: mgpai22@github.com
 
     // ===== Box Contents ===== //
     // Tokens
     // 1. (TokenLockId, 1L)
     // Registers
-    // R4: GroupElement     BenefactorGE
-    // R5: (Long, Boolean)  KeyInfo
-    // R6: Coll[Byte]       KeyTokenId
-    // R7: Boolean          IsBenefactorRedeem
-    // R8: Coll[Byte]       ContractNameBytes
+    // R4: GroupElement         BenefactorGE
+    // R5: (Long, Boolean)      (KeyAmount, IsKeysCreated)
+    // R6: Coll[Byte]           KeyTokenId
+    // R7: Boolean              IsBenefactorRedeem
+    // R8: Coll[Byte]           ContractNameBytes
+    // R9: (Coll[Byte], Long)   (SigmanautsFeeAddressBytesHash, SigmanautsFee)
 
     // ===== Transactions ===== //
     // 1. Create Token Lock Keys
@@ -52,9 +53,13 @@
 
     def validSigmanautsFee(fee: Box): Boolean = {
 
+        val sigmanautsInfo: (Coll[Byte], Long)          = SELF.R9[(Coll[Byte], Long)].get
+        val sigmanautsFeeAddressBytesHash: Coll[Byte]   = sigmanautsInfo._1
+        val sigmanautsFee: Long                         = sigmanautsInfo._2
+        
         allOf(Coll(
-            (fee.value >= $sigmanautsFee),
-            (blake2b256(fee.propositionBytes) == $sigmanautsFeeAddressBytesHash)
+            (fee.value >= sigmanautsFee),
+            (blake2b256(fee.propositionBytes) == sigmanautsFeeAddressBytesHash)
         ))
 
     }
@@ -83,40 +88,47 @@
 
     val validTokenLockBurn(tokenLockId: Coll[Byte]): Boolean = {
 
-        val validTokenLockIdBurn: Boolean = {
+        OUTPUTS.forall({ (output: Box) => {
 
-            output.tokens.forall({ (token: (Coll[Byte], Long)) => { 
+            val validTokenLockIdBurn: Boolean = {
+
+                output.tokens.forall({ (token: (Coll[Byte], Long)) => { 
+                    
+                    (token._1 != tokenLockId) 
                 
-                (token._1 != tokenLockId) 
-            
-            }})                  
+                }})                  
 
-        }
+            }
 
-        val validTokenLockDestruction: Boolean = {
+            val validTokenLockDestruction: Boolean = {
 
-            (output.propositionBytes != SELF.propositionBytes)
+                (output.propositionBytes != SELF.propositionBytes)
 
-        }
+            }
 
-        allOf(Coll(
-            validTokenLockIdBurn,
-            validTokenLockDestruction
-        ))
+            allOf(Coll(
+                validTokenLockIdBurn,
+                validTokenLockDestruction
+            ))
+
+        }})
 
     }
 
     // ===== Variables ===== //
-    val tokenLockId: Coll[Byte]         = SELF.tokens(0)._1
-    val benefactorGE: GroupElement      = SELF.R4[GroupElement].get
-    val benefactorSigmaProp: SigmaProp  = proveDlog(benefactorGE)
-    val keyInfo: (Long, Boolean)        = SELF.R5[(Long, Boolean)].get
-    val keyAmount: Long                 = keyInfo._1
-    val isKeysCreated: Boolean          = keyInfo._2 // False initially.
-    val keyTokenId: Coll[Byte]          = SELF.R6[Coll[Byte]].get // Empty Coll[Byte]() initially.
-    val isBenefactorRedeem: Boolean     = SELF.R7[Boolean].get // Can be true or false.
-    val contractNameBytes: Coll[Byte]   = SELF.R8[Coll[Byte]].get
-    val _action: Int                    = getVar[Int](0).get
+    val tokenLockId: Coll[Byte]                     = SELF.tokens(0)._1
+    val benefactorGE: GroupElement                  = SELF.R4[GroupElement].get
+    val benefactorSigmaProp: SigmaProp              = proveDlog(benefactorGE)
+    val keyInfo: (Long, Boolean)                    = SELF.R5[(Long, Boolean)].get
+    val keyAmount: Long                             = keyInfo._1
+    val isKeysCreated: Boolean                      = keyInfo._2 // False initially.
+    val keyTokenId: Coll[Byte]                      = SELF.R6[Coll[Byte]].get // Empty Coll[Byte]() initially.
+    val isBenefactorRedeem: Boolean                 = SELF.R7[Boolean].get // Can be true or false.
+    val contractNameBytes: Coll[Byte]               = SELF.R8[Coll[Byte]].get
+    val sigmanautsInfo: (Coll[Byte], Long)          = SELF.R9[(Coll[Byte], Long)].get
+    val sigmanautsFeeAddressBytesHash: Coll[Byte]   = sigmanautsInfo._1
+    val sigmanautsFee: Long                         = sigmanautsInfo._2
+    val _action: Int                                = getVar[Int](0).get
 
     if (_action == 1) {
 
@@ -135,7 +147,8 @@
                     (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
                     (tokenLockOut.R4[GroupElement].get == benefactorGE),
                     (tokenLockOut.R7[Boolean].get == isBenefactorRedeem),
-                    (tokenLockOut.R8[Coll[Byte]].get == contractNameBytes)
+                    (tokenLockOut.R8[Coll[Byte]].get == contractNameBytes),
+                    (tokenLockOut.R9[(Coll[Byte], Long)].get == sigmanautsInfo)
                 ))
 
             }
@@ -205,7 +218,8 @@
                     (tokenLockOut.R5[(Long, Boolean)].get == keyInfo),
                     (tokenLockOut.R6[Coll[Byte]].get == keyTokenId),
                     (tokenLockOut.R7[Boolean].get == isBenefactorRedeem),
-                    (tokenLockOut.R8[Coll[Byte]].get == contractNameBytes)
+                    (tokenLockOut.R8[Coll[Byte]].get == contractNameBytes),
+                    (tokenLockOut.R9[(Coll[Byte], Long)].get == sigmanautsInfo)
                 ))
 
             }
@@ -236,7 +250,7 @@
                 val propAndBox: (SigmaProp, Box) = (benefactorSigmaProp, benefactorOut)
 
                 allOf(Coll(
-                    (benefactorOut.value == SELF.value - $sigmanautsFee),
+                    (benefactorOut.value == SELF.value - sigmanautsFee),
                     isSigmaPropEqualToBoxProp(propAndBox)
                 ))
 
@@ -264,7 +278,7 @@
                 input.tokens.exists({ (t: (Coll[Byte], Long)) =>
                     (t._1 == keyTokenId)
                 })
-            })(0)
+            })(0) // There should only be one valid input.
 
             // Outputs
             val beneficiaryOut: Box = OUTPUTS(0)
@@ -273,7 +287,7 @@
             val validBeneficiaryOut: Boolean = {
 
                 allOf(Coll(
-                    (beneficiaryOut.value == SELF.value - $sigmanautsFee),
+                    (beneficiaryOut.value == SELF.value - sigmanautsFee),
                     (beneficiaryOut.propositionBytes == beneficiaryIn.propositionBytes)
                 ))             
 
