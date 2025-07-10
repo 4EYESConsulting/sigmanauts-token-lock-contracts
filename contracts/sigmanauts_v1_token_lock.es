@@ -40,9 +40,8 @@
     // Context Variables: Action
 
     // ===== Compile Time Constants ($) ===== //
-    // $sigmanautsFeeAddressBytesHash: Coll[Byte]
-    // $sigmanautsFee: Long
-
+    // None
+    
     // ===== Context Variables (_) ===== //
     // _action: Int
 
