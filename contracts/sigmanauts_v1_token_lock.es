@@ -86,7 +86,7 @@
 
     }
 
-    val validTokenLockBurn(tokenLockId: Coll[Byte]): Boolean = {
+    def validTokenLockBurn(tokenLockId: Coll[Byte]): Boolean = {
 
         OUTPUTS.forall({ (output: Box) => {
 
