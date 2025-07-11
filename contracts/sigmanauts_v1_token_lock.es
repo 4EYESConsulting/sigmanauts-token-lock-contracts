@@ -40,9 +40,8 @@
     // Context Variables: Action
 
     // ===== Compile Time Constants ($) ===== //
-    // $sigmanautsFeeAddressBytesHash: Coll[Byte]
-    // $sigmanautsFee: Long
-
+    // None
+    
     // ===== Context Variables (_) ===== //
     // _action: Int
 
@@ -86,7 +85,7 @@
 
     }
 
-    val validTokenLockBurn(tokenLockId: Coll[Byte]): Boolean = {
+    def validTokenLockBurn(tokenLockId: Coll[Byte]): Boolean = {
 
         OUTPUTS.forall({ (output: Box) => {
 
