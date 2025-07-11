@@ -22,24 +22,29 @@
     // ===== Transactions ===== //
     
     // 1. Create Token Lock Keys
+    // Description: The benefactor will create keys that can be used to redeem funds from the token lock box.
+    //              An arbitrary amount of keys can be minted, each will have the same token id. Redeeming is an all-or-nothing action.
     // Inputs: TokenLock, Benefactor
     // Data Inputs: None
     // Outputs: TokenLock, Benefactor, SigmanautsFee
     // Context Variables: Action
 
     // 2. Fund Token Lock
+    // Description: The benefactor can fund the token lock box with erg and/or arbitrary tokens.
     // Inputs: TokenLock, Benefactor
     // Data Inputs: None
     // Outputs: TokenLock, SigmanautsFee
     // Context Variables: Action
     
     // 3. Benefactor Redeem
+    // Description: If enabled, the benefactor can redeem all the funds from the box, this terminates the token lock box.
     // Inputs: TokenLock, Benefactor
     // Data Inputs: None
     // Outputs: Benefactor, SigmanautsFee
     // Context Variables: Action
     
     // 4. Beneficiary Redeem
+    // Description: Whoever has a token lock key, after the deadline is reached, can redeem all the funds from the box, this terminates the token lock box.
     // Inputs: TokenLock, Beneficiary
     // Data Inputs: None
     // Outputs: Beneficiary, SigmanautsFee
@@ -125,10 +130,12 @@
     val benefactorGE: GroupElement                  = SELF.R4[GroupElement].get
     val benefactorSigmaProp: SigmaProp              = proveDlog(benefactorGE)
     val keyInfo: (Long, Boolean)                    = SELF.R5[(Long, Boolean)].get
-    val keyAmount: Long                             = keyInfo._1
-    val isKeysCreated: Boolean                      = keyInfo._2 // False initially.
-    val keyTokenId: Coll[Byte]                      = SELF.R6[Coll[Byte]].get // Empty Coll[Byte]() initially.
-    val isBenefactorRedeem: Boolean                 = SELF.R7[Boolean].get // Can be true or false.
+    val keyAmount: Long                             = keyInfo._1 // 0 Initially.
+    val isKeysCreated: Boolean                      = keyInfo._2 // False initially, this must happen however.
+    val keyTokenInfo: Coll[Byte]                    = SELF.R6[(Coll[Byte], Coll[Byte])].get // Empty tuple of Coll[Byte]() initially.
+    val options: Boolean                            = SELF.R7[(Boolean, Boolean)].get // Can be true or false.
+    val isKeyAddressRedeem: Boolean                 = options._1 // If this address is provided along with a key, they can redeem at any time.
+    val isPriceRedeem: Boolean                      = options._2 // If the price of ERG in USD is above the threshold and the time required time has elapsed, then redemption is possible.
     val contractNameBytes: Coll[Byte]               = SELF.R8[Coll[Byte]].get
     val sigmanautsInfo: (Coll[Byte], Long)          = SELF.R9[(Coll[Byte], Long)].get
     val sigmanautsFeeAddressBytesHash: Coll[Byte]   = sigmanautsInfo._1
@@ -205,7 +212,7 @@
 
     } else if (_action == 2) {
 
-        // This action allow only the benefactor to add more ERG to the contract.
+        // This action allow only the benefactor to add more ERG or arbitrary tokens to the contract.
         val validFundTokenLockTx: Boolean = {
 
             // Outputs
@@ -246,7 +253,7 @@
 
     } else if (_action == 3) {
 
-        // This action allows the benefactor to redeem ERG in contract
+        // This action allows the benefactor to redeem all the funds from the contract.
         val validBenefactorRedeemTx: Boolean = {
 
             // Outputs
