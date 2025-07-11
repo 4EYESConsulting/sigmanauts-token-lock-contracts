@@ -7,8 +7,10 @@
     // Reviewer: mgpai22@github.com
 
     // ===== Box Contents ===== //
+    
     // Tokens
     // 1. (TokenLockId, 1L)
+    
     // Registers
     // R4: GroupElement         BenefactorGE
     // R5: (Long, Boolean)      (KeyAmount, IsKeysCreated)
@@ -18,21 +20,25 @@
     // R9: (Coll[Byte], Long)   (SigmanautsFeeAddressBytesHash, SigmanautsFee)
 
     // ===== Transactions ===== //
+    
     // 1. Create Token Lock Keys
     // Inputs: TokenLock, Benefactor
     // Data Inputs: None
     // Outputs: TokenLock, Benefactor, SigmanautsFee
     // Context Variables: Action
+
     // 2. Fund Token Lock
     // Inputs: TokenLock, Benefactor
     // Data Inputs: None
     // Outputs: TokenLock, SigmanautsFee
     // Context Variables: Action
+    
     // 3. Benefactor Redeem
     // Inputs: TokenLock, Benefactor
     // Data Inputs: None
     // Outputs: Benefactor, SigmanautsFee
     // Context Variables: Action
+    
     // 4. Beneficiary Redeem
     // Inputs: TokenLock, Beneficiary
     // Data Inputs: None
@@ -40,9 +46,8 @@
     // Context Variables: Action
 
     // ===== Compile Time Constants ($) ===== //
-    // $sigmanautsFeeAddressBytesHash: Coll[Byte]
-    // $sigmanautsFee: Long
-
+    // None
+    
     // ===== Context Variables (_) ===== //
     // _action: Int
 
@@ -86,7 +91,7 @@
 
     }
 
-    val validTokenLockBurn(tokenLockId: Coll[Byte]): Boolean = {
+    def validTokenLockBurn(tokenLockId: Coll[Byte]): Boolean = {
 
         OUTPUTS.forall({ (output: Box) => {
 
@@ -208,7 +213,10 @@
             val sigmanautsFeeOut: Box = OUTPUTS(1)
 
             // Variables
-            val delta: Long = (tokenLockOut.value - SELF.value)
+            val ergDelta: Long = (tokenLockOut.value - SELF.value)
+            val tokenIn: SELF.tokens.fold(0L, { (acc: Long, curr: (Coll[Byte], Long)) => acc + curr._2 })
+            val tokenOut: tokenLockOut.tokens.fold(0L, { (acc: Long, curr: (Coll[Byte], Long)) => acc + curr._2 })
+            val tokenDelta: (tokenOut - tokenIn)
 
             val validSelfRecreation: Boolean = {
 
@@ -224,7 +232,7 @@
 
             }
 
-            val validFund: Boolean = (delta > 0)
+            val validFund: Boolean = (ergDelta > 0) || (tokenDelta > 0)
 
             allOf(Coll(
                 validSelfRecreation,
