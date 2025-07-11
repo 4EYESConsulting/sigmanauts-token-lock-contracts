@@ -1,0 +1,424 @@
+<mxfile host="Electron" modified="2025-07-11T19:16:11.573Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="TuvIpJs5PlHhqLDULZhY" version="21.7.5" type="device">
+  <diagram name="v1" id="09Bx-n4htauvKq4cqUK4">
+    <mxGraphModel dx="1434" dy="836" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-1" value="1. Create Token Lock" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="40" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-44" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-41" target="z9FmpwOvhVbVILPvB1TD-42">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-41" value="Benefactor" style="whiteSpace=wrap;html=1;aspect=fixed;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="370" y="120" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-45" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-42" target="z9FmpwOvhVbVILPvB1TD-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-51" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-42" target="z9FmpwOvhVbVILPvB1TD-50">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="160" />
+              <mxPoint x="540" y="250" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-42" value="Tx" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=8;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="500" y="150" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-43" value="&amp;nbsp;Token Lock" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="120" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-65" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-46" target="z9FmpwOvhVbVILPvB1TD-43">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-46" value="Token Lock Id" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="155" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-48" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-46" target="z9FmpwOvhVbVILPvB1TD-46">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-50" value="Sigmanauts Fee" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="210" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-52" value="2. Create Token Lock Keys" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="400" width="160" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-53" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-54" target="z9FmpwOvhVbVILPvB1TD-57">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="470" y="610" />
+              <mxPoint x="470" y="520" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-54" value="Benefactor" style="whiteSpace=wrap;html=1;aspect=fixed;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="370" y="570" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-55" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-57" target="z9FmpwOvhVbVILPvB1TD-59">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-56" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-57" target="z9FmpwOvhVbVILPvB1TD-62">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="520" />
+              <mxPoint x="540" y="700" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-96" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-57" target="z9FmpwOvhVbVILPvB1TD-93">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="520" />
+              <mxPoint x="540" y="610" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-57" value="Tx" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=8;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="500" y="510" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-59" value="&amp;nbsp;Token Lock" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="480" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-61" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="695" y="525" as="sourcePoint" />
+            <mxPoint x="695" y="525" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-62" value="Sigmanauts Fee" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="660" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-68" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-67" target="z9FmpwOvhVbVILPvB1TD-59">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-67" value="Token Lock Id" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="515" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-71" value="3. Fund Token Lock" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="850" width="310" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-72" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-73" target="z9FmpwOvhVbVILPvB1TD-76">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-124" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-73" target="z9FmpwOvhVbVILPvB1TD-123">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-73" value="Benefactor" style="whiteSpace=wrap;html=1;aspect=fixed;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="370" y="930" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-74" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=block;endFill=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-76" target="z9FmpwOvhVbVILPvB1TD-157">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="569.9999999999998" y="970" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-75" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-76" target="z9FmpwOvhVbVILPvB1TD-79">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="970" />
+              <mxPoint x="540" y="1060" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-76" value="Tx" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=8;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="500" y="960" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-79" value="Sigmanauts Fee" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="1020" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-90" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-84" target="z9FmpwOvhVbVILPvB1TD-87">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-91" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-84" target="z9FmpwOvhVbVILPvB1TD-57">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-84" value="&amp;nbsp;Token Lock" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="480" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-85" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="495" y="525" as="sourcePoint" />
+            <mxPoint x="495" y="525" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-87" value="Token Lock Id" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="515" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-95" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-93" target="z9FmpwOvhVbVILPvB1TD-94">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-93" value="Benefactor" style="whiteSpace=wrap;html=1;aspect=fixed;fontStyle=1;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="570" y="570" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-94" value="Token Lock Keys" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="605" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-123" value="Token Funds" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="965" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-126" value="4. Redeem Token Lock: Anytime Redeem" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="1200" width="310" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-127" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-129" target="z9FmpwOvhVbVILPvB1TD-132">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="1410" />
+              <mxPoint x="480" y="1320" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-128" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-129" target="z9FmpwOvhVbVILPvB1TD-151">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-129" value="Designate" style="whiteSpace=wrap;html=1;aspect=fixed;fontStyle=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="370" y="1370" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-130" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-132" target="z9FmpwOvhVbVILPvB1TD-133">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-131" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-132" target="z9FmpwOvhVbVILPvB1TD-135">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="1320" />
+              <mxPoint x="540" y="1410" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-132" value="Tx" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=8;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="500" y="1310" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-133" value="Designate" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="570" y="1280" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-134" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="695" y="1325" as="sourcePoint" />
+            <mxPoint x="695" y="1325" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-135" value="Sigmanauts Fee" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="1370" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-136" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-137" target="z9FmpwOvhVbVILPvB1TD-133">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-137" value="Token Funds" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="1315" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-151" value="Token Lock Key" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1405" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-157" value="&amp;nbsp;Token Lock" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="930" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-158" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="695" y="975" as="sourcePoint" />
+            <mxPoint x="695" y="975" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-159" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-160" target="z9FmpwOvhVbVILPvB1TD-157">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-160" value="Token Lock Id" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="945" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-161" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.75;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-162" target="z9FmpwOvhVbVILPvB1TD-157">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-162" value="Token Funds" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="985" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-171" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-165" target="z9FmpwOvhVbVILPvB1TD-168">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-172" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-165" target="z9FmpwOvhVbVILPvB1TD-170">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-175" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-165" target="z9FmpwOvhVbVILPvB1TD-132">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-165" value="&amp;nbsp;Token Lock" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="1280" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-166" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="325" y="1325" as="sourcePoint" />
+            <mxPoint x="325" y="1325" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-168" value="Token Lock Id" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1295" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-170" value="Token Funds" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1335" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-196" value="5. Redeem Token Lock: Deadline Reached" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="1560" width="310" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-197" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-199" target="z9FmpwOvhVbVILPvB1TD-202">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="1770" />
+              <mxPoint x="480" y="1680" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-198" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-199" target="z9FmpwOvhVbVILPvB1TD-208">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-199" value="Key Holder" style="whiteSpace=wrap;html=1;aspect=fixed;fontStyle=1;fontSize=12;fillColor=#f5f5f5;strokeColor=#666666;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="370" y="1730" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-200" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-202" target="z9FmpwOvhVbVILPvB1TD-203">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-201" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-202" target="z9FmpwOvhVbVILPvB1TD-205">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="1680" />
+              <mxPoint x="540" y="1770" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-202" value="Tx" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=8;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="500" y="1670" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-203" value="Designate" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="570" y="1640" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-204" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="695" y="1685" as="sourcePoint" />
+            <mxPoint x="695" y="1685" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-205" value="Sigmanauts Fee" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="1730" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-206" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-207" target="z9FmpwOvhVbVILPvB1TD-203">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-207" value="Token Funds" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="1675" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-208" value="Token Lock Key" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1765" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-209" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-212" target="z9FmpwOvhVbVILPvB1TD-214">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-210" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-212" target="z9FmpwOvhVbVILPvB1TD-215">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-211" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-212" target="z9FmpwOvhVbVILPvB1TD-202">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-212" value="&amp;nbsp;Token Lock" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="1640" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-213" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="325" y="1685" as="sourcePoint" />
+            <mxPoint x="325" y="1685" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-214" value="Token Lock Id" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1655" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-215" value="Token Funds" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="1695" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-216" value="6. Redeem Token Lock: Price Greater Than Set Threshold" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="1920" width="350" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-217" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-219" target="z9FmpwOvhVbVILPvB1TD-222">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="480" y="2220" />
+              <mxPoint x="480" y="2130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-218" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-219" target="z9FmpwOvhVbVILPvB1TD-228">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-219" value="Key Holder" style="whiteSpace=wrap;html=1;aspect=fixed;fontStyle=1;fontSize=12;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="370" y="2180" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-220" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-222" target="z9FmpwOvhVbVILPvB1TD-223">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-221" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-222" target="z9FmpwOvhVbVILPvB1TD-225">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="540" y="2130" />
+              <mxPoint x="540" y="2220" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-222" value="Tx" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;fontSize=8;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="500" y="2120" width="20" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-223" value="Key Holder" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fontStyle=1;fillColor=#fff2cc;strokeColor=#d6b656;" vertex="1" parent="1">
+          <mxGeometry x="570" y="2090" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-224" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="695" y="2135" as="sourcePoint" />
+            <mxPoint x="695" y="2135" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-225" value="Sigmanauts Fee" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="570" y="2180" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-226" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-227" target="z9FmpwOvhVbVILPvB1TD-223">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-227" value="Token Funds" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="660" y="2125" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-228" value="Token Lock Key" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="2215" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-229" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.25;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-232" target="z9FmpwOvhVbVILPvB1TD-234">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-230" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.75;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-232" target="z9FmpwOvhVbVILPvB1TD-235">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-231" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=block;endFill=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-232" target="z9FmpwOvhVbVILPvB1TD-222">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-232" value="&amp;nbsp;Token Lock" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="2090" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-233" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="325" y="2135" as="sourcePoint" />
+            <mxPoint x="325" y="2135" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-234" value="Token Lock Id" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="2105" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-235" value="Token Funds" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="2145" width="70" height="10" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-237" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;endArrow=block;endFill=1;dashed=1;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-236" target="z9FmpwOvhVbVILPvB1TD-222">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-239" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-236" target="z9FmpwOvhVbVILPvB1TD-238">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-236" value="Oracle Datapoint" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="370" y="2000" width="80" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-238" value="Oracle NFT" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#e1d5e7;strokeColor=#9673a6;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="290" y="2035" width="70" height="10" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
