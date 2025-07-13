@@ -77,10 +77,6 @@
     // def validKeyHolderRecreation: (Box, Box) => Boolean
     // def validTokenLockBurn: Coll[Byte] => Boolean
 
-    // ===== Protocol Options ===== //
-    // isDesignateRedeem: Boolean
-    // isOracleRedeem: Boolean
-
     def isSigmaPropEqualToBoxProp(propAndBox: (SigmaProp, Box)): Boolean = {
 
         val prop: SigmaProp = propAndBox._1
@@ -396,7 +392,7 @@
 
     } else if (_action == 4) {
 
-        val validRedeemTokenLockDeadlineReachedTx: Boolean = {
+        val validRedeemTokenLockTx: Boolean = {
 
             // Inputs
             val keyHolderIn: Box = INPUTS(1)
@@ -410,18 +406,46 @@
             val holder: (Box, Box) = (keyHolderIn, keyHolderOut)
             val validKeyHolderOut: Boolean = validKeyHolderRecreation(holder)
 
+            val validOracleRedeem: Boolean = {
+
+                if (isOracleRedeem) {
+
+                    val oracle: Box = CONTEXT.dataInputs(0)
+                    val datapoint: Numeric = oracle.R4[Numeric].get
+
+                    val validOracle: Boolean = (oracle.tokens(0)._1 == oracleNFT)
+                    
+                    val validThresholdReached: Boolean = {
+
+                        val oracleValue: Numeric = Global.deserializeTo[Numeric](oracleSerializedValue)
+                        (oracleValue >= datapoint)
+
+                    }
+
+                    allOf(Coll(
+                        validOracle,
+                        validThresholdReached
+                    ))
+
+                } else {
+                    true
+                }
+
+            }
+
             allOf(Coll(
                 validKeyHolderIn,
                 validKeyHolderOut
                 validTokenLockBurn(tokenLockId),
                 validSigmanautsFee(sigmanautsFeeOut),
                 isKeysCreated,
-                isDeadlineReached
+                isDeadlineReached,
+                validOracleRedeem
             ))           
 
         }
 
-        sigmaProp(validRedeemTokenLockDeadlineReachedTx)
+        sigmaProp(validRedeemTokenLockTx)
 
     } else {
         sigmaProp(false)
