@@ -1,6 +1,6 @@
-<mxfile host="Electron" modified="2025-07-13T01:54:48.692Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="8lrXgWHRjMsh9ipjocz_" version="21.7.5" type="device">
+<mxfile host="Electron" modified="2025-07-13T06:04:59.830Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.7.5 Chrome/114.0.5735.289 Electron/25.8.1 Safari/537.36" etag="5Jude070niQf6ZUdO4PJ" version="21.7.5" type="device">
   <diagram name="v1" id="09Bx-n4htauvKq4cqUK4">
-    <mxGraphModel dx="1292" dy="796" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+    <mxGraphModel dx="1508" dy="929" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -162,7 +162,7 @@
         <mxCell id="z9FmpwOvhVbVILPvB1TD-123" value="Token Funds" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="290" y="1055" width="70" height="10" as="geometry" />
         </mxCell>
-        <mxCell id="z9FmpwOvhVbVILPvB1TD-126" value="4. Redeem Token Lock: Anytime Redeem" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
+        <mxCell id="z9FmpwOvhVbVILPvB1TD-126" value="4. Redeem Token Lock: Designate Redeem" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="370" y="1200" width="310" height="40" as="geometry" />
         </mxCell>
         <mxCell id="z9FmpwOvhVbVILPvB1TD-127" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-129" target="z9FmpwOvhVbVILPvB1TD-132">
@@ -217,12 +217,6 @@
         <mxCell id="z9FmpwOvhVbVILPvB1TD-157" value="&amp;nbsp;Token Lock" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="570" y="930" width="80" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="z9FmpwOvhVbVILPvB1TD-158" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="695" y="975" as="sourcePoint" />
-            <mxPoint x="695" y="975" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="z9FmpwOvhVbVILPvB1TD-159" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.25;entryDx=0;entryDy=0;endArrow=none;endFill=0;" edge="1" parent="1" source="z9FmpwOvhVbVILPvB1TD-160" target="z9FmpwOvhVbVILPvB1TD-157">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
@@ -246,12 +240,6 @@
         </mxCell>
         <mxCell id="z9FmpwOvhVbVILPvB1TD-165" value="&amp;nbsp;Token Lock" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="370" y="1280" width="80" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="z9FmpwOvhVbVILPvB1TD-166" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="325" y="1325" as="sourcePoint" />
-            <mxPoint x="325" y="1325" as="targetPoint" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="z9FmpwOvhVbVILPvB1TD-168" value="Token Lock Id" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="290" y="1295" width="70" height="10" as="geometry" />
@@ -323,12 +311,6 @@
         <mxCell id="z9FmpwOvhVbVILPvB1TD-212" value="&amp;nbsp;Token Lock" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="370" y="1640" width="80" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="z9FmpwOvhVbVILPvB1TD-213" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="325" y="1685" as="sourcePoint" />
-            <mxPoint x="325" y="1685" as="targetPoint" />
-          </mxGeometry>
-        </mxCell>
         <mxCell id="z9FmpwOvhVbVILPvB1TD-214" value="Token Lock Id" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="290" y="1655" width="70" height="10" as="geometry" />
         </mxCell>
@@ -398,12 +380,6 @@
         </mxCell>
         <mxCell id="z9FmpwOvhVbVILPvB1TD-232" value="&amp;nbsp;Token Lock" style="whiteSpace=wrap;html=1;aspect=fixed;fontSize=12;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1" vertex="1" parent="1">
           <mxGeometry x="370" y="2090" width="80" height="80" as="geometry" />
-        </mxCell>
-        <mxCell id="z9FmpwOvhVbVILPvB1TD-233" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" edge="1" parent="1">
-          <mxGeometry relative="1" as="geometry">
-            <mxPoint x="325" y="2135" as="sourcePoint" />
-            <mxPoint x="325" y="2135" as="targetPoint" />
-          </mxGeometry>
         </mxCell>
         <mxCell id="z9FmpwOvhVbVILPvB1TD-234" value="Token Lock Id" style="rounded=0;whiteSpace=wrap;html=1;fontSize=6;fillColor=#ffe6cc;strokeColor=#d79b00;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="290" y="2105" width="70" height="10" as="geometry" />
