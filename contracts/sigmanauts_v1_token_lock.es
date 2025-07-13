@@ -73,6 +73,8 @@
     // ===== Functions ===== //
     // def isSigmaPropEqualToBoxProp: (SigmaProp, Box) => Boolean
     // def validSigmanautsFee: Box => Boolean
+    // def validKeyHolder: Box => Boolean
+    // def validKeyHolderRecreation: (Box, Box) => Boolean
     // def validTokenLockBurn: Coll[Byte] => Boolean
 
     // ===== Protocol Options ===== //
@@ -126,6 +128,25 @@
         }})
 
     }
+
+    def validKeyHolderRecreation(holder: (Box, Box)): Boolean = {
+
+        val holderIn: Box = holder._1
+        val holderOut: Box = holder._2
+        
+        val validErg: Boolean = (holderOut.value == SELF.value)
+
+        val validProps: Boolean = (holderOut.propositionBytes == holderIn.propositionBytes)
+
+        val validTokens: Boolean = if (SELF.tokens.size > 1) (holderOut.tokens == SELF.tokens.slice(1, SELF.tokens.size - 1)) else true
+
+        allOf(Coll(
+            validErg,
+            validProps,
+            validTokens
+        ))
+
+    }    
 
     def validTokenLockBurn(tokenLockId: Coll[Byte]): Boolean = {
 
@@ -184,7 +205,8 @@
 
     val isKeysCreated: Boolean      = (keyAmount > 0L)
     val isDesignateRedeem: Boolean  = (designates.size > 0)
-    val isOracleRedeem: Boolean     = (oracleNFT.size > 0)  
+    val isOracleRedeem: Boolean     = (oracleNFT.size > 0)
+    val isDeadlineReached: Boolean  = (HEIGHT > deadline)
 
     if (_action == 1) {
 
@@ -356,25 +378,12 @@
 
             }
 
-            val validDesignateOut: Boolean = {
-
-                val validErg: Boolean = (designateOut.value == SELF.value)
-
-                val validProps: Boolean = (designateOut.propositionBytes == designateIn.propositionBytes)
-
-                val validTokens: Boolean = if (SELF.tokens.size > 1) (designateOut.tokens == SELF.tokens.slice(1, SELF.tokens.size - 1)) else true                 
-
-                allOf(Coll(
-                    validErg,
-                    validProps,
-                    validTokens
-                ))
-
-            }
+            val holder: (Box, Box) = (designateIn, designateOut)
+            val validDesignateOut: Boolean = validKeyHolderRecreation(holder)
 
             allOf(Coll(
                 validDesignateIn,
-                validDesignateOut
+                validDesignateOut,
                 validTokenLockBurn(tokenLockId),
                 validSigmanautsFee(sigmanautsFeeOut),
                 isKeysCreated,
@@ -387,38 +396,32 @@
 
     } else if (_action == 4) {
 
-        val validBeneficiaryRedeemTx: Boolean = {
+        val validRedeemTokenLockDeadlineReachedTx: Boolean = {
 
             // Inputs
-            val beneficiaryIn: Box = INPUTS.filter({ (input: Box) => 
-                input.tokens.exists({ (t: (Coll[Byte], Long)) =>
-                    (t._1 == keyTokenId)
-                })
-            })(0) // There should only be one valid input.
+            val keyHolderIn: Box = INPUTS(1)
 
             // Outputs
-            val beneficiaryOut: Box = OUTPUTS(0)
+            val keyHolderOut: Box = OUTPUTS(0)
             val sigmanautsFeeOut: Box = OUTPUTS(1)
 
-            val validBeneficiaryOut: Boolean = {
+            val validKeyHolderIn: Boolean = validKeyHolder(keyHolderIn)
 
-                allOf(Coll(
-                    (beneficiaryOut.value == SELF.value - sigmanautsFee),
-                    (beneficiaryOut.propositionBytes == beneficiaryIn.propositionBytes)
-                ))             
-
-            }
+            val holder: (Box, Box) = (keyHolderIn, keyHolderOut)
+            val validKeyHolderOut: Boolean = validKeyHolderRecreation(holder)
 
             allOf(Coll(
-                validBeneficiaryOut,
+                validKeyHolderIn,
+                validKeyHolderOut
                 validTokenLockBurn(tokenLockId),
                 validSigmanautsFee(sigmanautsFeeOut),
-                isKeysCreated
+                isKeysCreated,
+                isDeadlineReached
             ))           
 
         }
 
-        sigmaProp(validBeneficiaryRedeemTx)
+        sigmaProp(validRedeemTokenLockDeadlineReachedTx)
 
     } else {
         sigmaProp(false)
