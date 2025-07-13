@@ -23,7 +23,8 @@
     
     // 1. Create Token Lock Keys
     // Description: The benefactor will create keys that can be used to redeem funds from the token lock box.
-    //              An arbitrary amount of keys can be minted, each will have the same token id. Redeeming is an all-or-nothing action.
+    //              An arbitrary amount of keys can be minted and each will have the same token id. 
+    //              Redeeming is an all-or-nothing action.
     // Inputs: TokenLock, Benefactor
     // Data Inputs: None
     // Outputs: TokenLock, Benefactor, SigmanautsFee
@@ -36,19 +37,32 @@
     // Outputs: TokenLock, SigmanautsFee
     // Context Variables: Action
     
-    // 3. Benefactor Redeem
-    // Description: If enabled, the benefactor can redeem all the funds from the box, this terminates the token lock box.
-    // Inputs: TokenLock, Benefactor
-    // Data Inputs: None
-    // Outputs: Benefactor, SigmanautsFee
+    // 3. Redeem Token Lock: Designate Redeem
+    // Description: When the keys are create, special addresses (designates) can be assigned with the keys.
+    //              Any designate address that has the key can bypass all restrictions and redeem funds
+    //              from the token lock box at any time.
+    // DataInputs: None
+    // Inputs: TokenLock, Designate
+    // Outputs: Designate, SigmanautsFee
     // Context Variables: Action
-    
-    // 4. Beneficiary Redeem
-    // Description: Whoever has a token lock key, after the deadline is reached, can redeem all the funds from the box, this terminates the token lock box.
-    // Inputs: TokenLock, Beneficiary
-    // Data Inputs: None
-    // Outputs: Beneficiary, SigmanautsFee
+
+    // 4. Redeem Token Lock: Deadline Reached
+    // Description: A key holder who is not a designate can only redeem the funds from the token lock
+    //              if the deadline height is reached.
+    // DataInputs: None
+    // Inputs: TokenLock, KeyHolder
+    // Outputs: KeyHolder, SigmanautsFee
     // Context Variables: Action
+
+    // 5. Redeem Token Lock: Price Greater Than Set Threshold
+    // Description: When creating the token lock, it is possible to set the condition for key holder redemption
+    //              to depend on some threshold value determined by an oracle datapoint. The contract is
+    //              designed to be agnostic to the oracle used, with the only condition being that the datapoint
+    //              must be a valid ErgoScript Numeric type. The condition that the deadline height is reached must also apply.
+    // DataInputs: OracleDatapoint
+    // Inputs: TokenLock, KeyHolder
+    // Outputs: KeyHolder, SigmanautsFee
+    // Context Variables: Action 
 
     // ===== Compile Time Constants ($) ===== //
     // None
@@ -57,26 +71,13 @@
     // _action: Int
 
     // ===== Functions ===== //
-    // def validSigmanautsFee: Box => Boolean
     // def isSigmaPropEqualToBoxProp: (SigmaProp, Box) => Boolean
+    // def validSigmanautsFee: Box => Boolean
     // def validTokenLockBurn: Coll[Byte] => Boolean
 
     // ===== Protocol Options ===== //
     // isDesignateRedeem: Boolean
     // isOracleRedeem: Boolean
-
-    def validSigmanautsFee(fee: Box): Boolean = {
-
-        val sigmanautsInfo: (Coll[Byte], Long)          = SELF.R9[(Coll[Byte], Long)].get
-        val sigmanautsFeeAddressBytesHash: Coll[Byte]   = sigmanautsInfo._1
-        val sigmanautsFee: Long                         = sigmanautsInfo._2
-        
-        allOf(Coll(
-            (fee.value >= sigmanautsFee),
-            (blake2b256(fee.propositionBytes) == sigmanautsFeeAddressBytesHash)
-        ))
-
-    }
 
     def isSigmaPropEqualToBoxProp(propAndBox: (SigmaProp, Box)): Boolean = {
 
@@ -97,6 +98,19 @@
             (propBytes.slice(1, propBytes.size) == treeBytes.slice(offset, treeBytes.size))
 
         }
+
+    }
+    
+    def validSigmanautsFee(fee: Box): Boolean = {
+
+        val sigmanautsInfo: (Coll[Byte], Long)          = SELF.R9[(Coll[Byte], Long)].get
+        val sigmanautsFeeAddressBytesHash: Coll[Byte]   = sigmanautsInfo._1
+        val sigmanautsFee: Long                         = sigmanautsInfo._2
+        
+        allOf(Coll(
+            (fee.value >= sigmanautsFee),
+            (blake2b256(fee.propositionBytes) == sigmanautsFeeAddressBytesHash)
+        ))
 
     }
 
