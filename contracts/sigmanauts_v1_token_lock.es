@@ -61,6 +61,10 @@
     // def isSigmaPropEqualToBoxProp: (SigmaProp, Box) => Boolean
     // def validTokenLockBurn: Coll[Byte] => Boolean
 
+    // ===== Protocol Options ===== //
+    // isDesignateRedeem: Boolean
+    // isOracleRedeem: Boolean
+
     def validSigmanautsFee(fee: Box): Boolean = {
 
         val sigmanautsInfo: (Coll[Byte], Long)          = SELF.R9[(Coll[Byte], Long)].get
@@ -129,17 +133,25 @@
     val tokenLockId: Coll[Byte]                     = SELF.tokens(0)._1
     val benefactorGE: GroupElement                  = SELF.R4[GroupElement].get
     val benefactorSigmaProp: SigmaProp              = proveDlog(benefactorGE)
-    val keyInfo: (Long, Boolean)                    = SELF.R5[(Long, Boolean)].get
-    val keyAmount: Long                             = keyInfo._1 // 0 Initially.
-    val isKeysCreated: Boolean                      = keyInfo._2 // False initially, this must happen however.
-    val keyTokenInfo: Coll[Byte]                    = SELF.R6[(Coll[Byte], Coll[Byte])].get // Empty tuple of Coll[Byte]() initially.
-    val options: Boolean                            = SELF.R7[(Boolean, Boolean)].get // Can be true or false.
-    val isKeyAddressRedeem: Boolean                 = options._1 // If this address is provided along with a key, they can redeem at any time.
-    val isPriceRedeem: Boolean                      = options._2 // If the price of ERG in USD is above the threshold and the time required time has elapsed, then redemption is possible.
-    val contractNameBytes: Coll[Byte]               = SELF.R8[Coll[Byte]].get
-    val sigmanautsInfo: (Coll[Byte], Long)          = SELF.R9[(Coll[Byte], Long)].get
-    val sigmanautsFeeAddressBytesHash: Coll[Byte]   = sigmanautsInfo._1
+
+    val keyInfo: (Coll[Byte], Long)                 = SELF.R5[(Coll[Byte], Long)].get
+    val keyId: Coll[Byte]                           = keyInfo._1 // Empty Coll[Byte]() initially.
+    val KeyAmount: Coll[Byte]                       = keyInfo._2 // 0L initially.
+
+    val deadline: Numeric                              = SELF.R6[Numeric].get // 0L initially.
+
+    val designateInfo: Coll[Byte]                   = SELF.R7[Coll[Coll[Byte]]].get // Empty Coll[Coll[Byte]]() initially.
+
+    val oracleInfo: (Coll[Byte], Coll[Byte])        = SELF.R8[(Coll[Byte], Coll[Byte])].get
+    val oracleNFT: Coll[Byte]                       = oracleInfo._1
+    //val oracleSerializedType: Coll[Byte]            = oracleInfo._2(0)
+    val oracleSerializedValue: Coll[Byte]           = oracleInfo._2
+
+    val contractInfo: (Coll[Coll[Byte]], Long)      = SELF.R9[(Coll[Coll[Byte]], Long)].get
+    val contractNameBytes: Coll[Byte]               = contractInfo._1(0)
+    val sigmanautsFeeAddressBytesHash: Coll[Byte]   = contractInfo._1(1)
     val sigmanautsFee: Long                         = sigmanautsInfo._2
+
     val _action: Int                                = getVar[Int](0).get
 
     if (_action == 1) {
