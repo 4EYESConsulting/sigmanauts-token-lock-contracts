@@ -114,6 +114,19 @@
 
     }
 
+    def validKeyHolder(holder: Box): Boolean = {
+
+        val keyInfo: (Coll[Byte], Long) = SELF.R5[(Coll[Byte], Long)].get
+        val keyId: Coll[Byte] = keyInfo._1
+
+        holder.tokens.exists({ (token: (Coll[Byte], Long)) => {
+
+            (token._1 == keyId)
+
+        }})
+
+    }
+
     def validTokenLockBurn(tokenLockId: Coll[Byte]): Boolean = {
 
         OUTPUTS.forall({ (output: Box) => {
@@ -145,6 +158,7 @@
 
     // ===== Variables ===== //
     val tokenLockId: Coll[Byte]                     = SELF.tokens(0)._1
+    
     val benefactorGE: GroupElement                  = SELF.R4[GroupElement].get
     val benefactorSigmaProp: SigmaProp              = proveDlog(benefactorGE)
 
@@ -237,9 +251,9 @@
             allOf(Coll(
                 validSelfRecreation,
                 validKeyMint,
-                !isKeysCreated,
-                validSigmanautsFee(sigmanautsFeeOut),
-                (validDesignates || true)
+                (validDesignates || true),
+                validSigmanautsFee(sigmanautsFeeOut).
+                !isKeysCreated
             ))
 
         }
@@ -282,11 +296,11 @@
                 allOf(Coll(
                     (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
                     (tokenLockOut.R4[GroupElement].get == benefactorGE),
-                    (tokenLockOut.R5[(Long, Boolean)].get == keyInfo),
-                    (tokenLockOut.R6[Coll[Byte]].get == keyTokenId),
-                    (tokenLockOut.R7[Boolean].get == isBenefactorRedeem),
-                    (tokenLockOut.R8[Coll[Byte]].get == contractNameBytes),
-                    (tokenLockOut.R9[(Coll[Byte], Long)].get == sigmanautsInfo)
+                    (tokenLockOut.R5[(Coll[Byte], Long)].get == keyInfo),
+                    (tokenLockOut.R6[Long].get == deadline),
+                    (tokenLockOut.R7[Coll[GroupElement]].get == designates),
+                    (tokenLockOut.R8[(Coll[Byte], Coll[Byte])].get == oracleInfo),
+                    (tokenLockOut.R9[(Coll[Coll[Byte]], Long)].get == contractInfo)
                 ))
 
             }
@@ -309,34 +323,67 @@
 
     } else if (_action == 3) {
 
-        val validBenefactorRedeemTx: Boolean = {
+        val validRedeemTokenLockDesignateRedeemTx: Boolean = {
+
+            // Inputs
+            val designateIn: Box = INPUTS(1)
 
             // Outputs
-            val benefactorOut: Box = OUTPUTS(0)
+            val designateOut: Box = OUTPUTS(0)
             val sigmanautsFeeOut: Box = OUTPUTS(1)
 
-            val validBenefactorOut: Boolean = {
+            // Variables
+            val designateGroupElement: Coll[GroupElement] = designates.filter({ (designate: GroupElement) => 
 
-                val propAndBox: (SigmaProp, Box) = (benefactorSigmaProp, benefactorOut)
+                val designateProp: SigmaProp = proveDlog(designate)
+                val propAndBox: (SigmaProp, Box) = (designateProp, designateIn)
+
+                isSigmaPropEqualToBoxProp(propAndBox)
+
+            })
+
+            val validDesignateIn: Boolean = {
+
+                // 1. They exist in the designate array.
+                // 2. They hold the key.
+
+                val validDesignateExists: Boolean = (designateExsits.size == 1)
 
                 allOf(Coll(
-                    (benefactorOut.value == SELF.value - sigmanautsFee),
-                    isSigmaPropEqualToBoxProp(propAndBox)
+                    validDesignateExists,
+                    validKeyHolder(designateIn)
+                ))
+
+            }
+
+            val validDesignateOut: Boolean = {
+
+                val validErg: Boolean = (designateOut.value == SELF.value)
+
+                val validProps: Boolean = (designateOut.propositionBytes == designateIn.propositionBytes)
+
+                val validTokens: Boolean = if (SELF.tokens.size > 1) (designateOut.tokens == SELF.tokens.slice(1, SELF.tokens.size - 1)) else true                 
+
+                allOf(Coll(
+                    validErg,
+                    validProps,
+                    validTokens
                 ))
 
             }
 
             allOf(Coll(
-                validBenefactorOut,
+                validDesignateIn,
+                validDesignateOut
                 validTokenLockBurn(tokenLockId),
                 validSigmanautsFee(sigmanautsFeeOut),
-                isBenefactorRedeem
+                isKeysCreated,
+                isDesignateRedeem
             ))
             
-
         }
 
-        sigmaProp(validBenefactorRedeemTx) && benefactorSigmaProp
+        sigmaProp(validRedeemTokenLockDesignateRedeemTx)
 
     } else if (_action == 4) {
 
