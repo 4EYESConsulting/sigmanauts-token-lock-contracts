@@ -12,12 +12,12 @@
     // 1. (TokenLockId, 1L)
     
     // Registers
-    // R4: GroupElement         BenefactorGE
-    // R5: (Long, Boolean)      (KeyAmount, IsKeysCreated)
-    // R6: Coll[Byte]           KeyTokenId
-    // R7: Boolean              IsBenefactorRedeem
-    // R8: Coll[Byte]           ContractNameBytes
-    // R9: (Coll[Byte], Long)   (SigmanautsFeeAddressBytesHash, SigmanautsFee)
+    // R4: GroupElement                 BenefactorGE
+    // R5: (Coll[Byte], Long)           (KeyId, KeyAmount) // Empty Coll[Byte]() and 0L initially.
+    // R6: Long                         Deadline // Must make sure that this value is greater than the creation-height of the token lock box.
+    // R7: Coll[GroupElement]           Designates // Empty Coll[GroupElement]() initially.
+    // R8: (Coll[Byte], Coll[Byte])     (OracleNFT, OracleSerializedValue) // Can be a tuple of empty Coll[Byte](). If not empty, OracleSerializedValue must be a valid ErgoScript Numeric type.
+    // R9: (Coll[Coll[Byte]], Long)     (Coll(ContractNameBytes, SigmanautsFeeAddressBytesHash), SigmanautsFee)
 
     // ===== Transactions ===== //
     
@@ -100,11 +100,11 @@
         }
 
     }
-    
-    def validSigmanautsFee(fee: Box): Boolean = {
 
-        val sigmanautsInfo: (Coll[Byte], Long)          = SELF.R9[(Coll[Byte], Long)].get
-        val sigmanautsFeeAddressBytesHash: Coll[Byte]   = sigmanautsInfo._1
+    def validSigmanautsFee(feeBox: Box): Boolean = {
+
+        val contractInfo: (Coll[Byte], Long)            = SELF.R9[(Coll[Coll[Byte]], Long)].get
+        val sigmanautsFeeAddressBytesHash: Coll[Byte]   = contractInfo._1(1)
         val sigmanautsFee: Long                         = sigmanautsInfo._2
         
         allOf(Coll(
@@ -149,12 +149,12 @@
     val benefactorSigmaProp: SigmaProp              = proveDlog(benefactorGE)
 
     val keyInfo: (Coll[Byte], Long)                 = SELF.R5[(Coll[Byte], Long)].get
-    val keyId: Coll[Byte]                           = keyInfo._1 // Empty Coll[Byte]() initially.
-    val KeyAmount: Coll[Byte]                       = keyInfo._2 // 0L initially.
+    val keyId: Coll[Byte]                           = keyInfo._1
+    val KeyAmount: Long                             = keyInfo._2
 
-    val deadline: Numeric                              = SELF.R6[Numeric].get // 0L initially.
+    val deadline: Long                              = SELF.R6[Long].get
 
-    val designateInfo: Coll[Byte]                   = SELF.R7[Coll[Coll[Byte]]].get // Empty Coll[Coll[Byte]]() initially.
+    val designates: Coll[GroupElement]              = SELF.R7[Coll[Coll[Byte]]].get
 
     val oracleInfo: (Coll[Byte], Coll[Byte])        = SELF.R8[(Coll[Byte], Coll[Byte])].get
     val oracleNFT: Coll[Byte]                       = oracleInfo._1
@@ -168,9 +168,12 @@
 
     val _action: Int                                = getVar[Int](0).get
 
+    val isKeysCreated: Boolean      = (keyAmount > 0L)
+    val isDesignateRedeem: Boolean  = (designates.size > 0)
+    val isOracleRedeem: Boolean     = (oracleNFT.size > 0)  
+
     if (_action == 1) {
 
-        // One time mint of keys.
         val validCreateTokenLockKeysTx: Boolean = {
 
             // Outputs
@@ -184,18 +187,9 @@
                     (tokenLockOut.value == SELF.value),
                     (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
                     (tokenLockOut.R4[GroupElement].get == benefactorGE),
-                    (tokenLockOut.R7[Boolean].get == isBenefactorRedeem),
-                    (tokenLockOut.R8[Coll[Byte]].get == contractNameBytes),
-                    (tokenLockOut.R9[(Coll[Byte], Long)].get == sigmanautsInfo)
-                ))
-
-            }
-
-            val validKeyInfoUpdate: Boolean = {
-
-                allOf(Coll(
-                    (tokenLockOut.R5[(Long, Boolean)].get == (keyAmount, true)),
-                    (tokenLockOut.R6[Coll[Byte]].get == SELF.id)
+                    (tokenLockOut.R6[Long].get == deadline),
+                    (tokenLockOut.R8[(Coll[Byte], Coll[Byte])].get == oracleInfo),
+                    (tokenLockOut.R9[(Coll[Coll[Byte]], Long)].get == contractInfo)
                 ))
 
             }
@@ -203,8 +197,10 @@
             // Validates token is minted to benefactor.
             val validKeyMint: Boolean = {
 
+                val outKeyAmount: Long = issuanceOut.tokens(0)._2
+
                 // This check ensures only one box contains the minted tokens.
-                val validIssuance: Boolean = {
+                val validIssuanceUniqueness: Boolean = {
 
                     OUTPUTS.filter({ (output: Box) => 
                         output.tokens.exists({ (token: (Coll[Byte], Long)) => 
@@ -214,22 +210,36 @@
 
                 }
 
+                val validIssuanceMint: Boolean = {
+
+                    allOf(Coll(
+                        (issuanceOut.tokens(0)._1 == outKeyId),
+                        (outKeyAmount > 0L)
+                    ))
+
+                }
+
+                val validKeyInfoUpdate: Boolean = (tokenLockOut.R5[(Coll[Byte], Long)].get == (SELF.id, outKeyAmount))
+
                 val propAndBox: (SigmaProp, Box) = (benefactorSigmaProp, issuanceOut)
 
                 allOf(Coll(
-                    (issuanceOut.tokens(0) == (SELF.id, keyAmount)),
                     isSigmaPropEqualToBoxProp(propAndBox), // We follow EIP-4 asset standard using the benefator's box.
-                    validIssuance
+                    validIssuanceUniqueness,
+                    validIssuanceMint,
+                    validKeyInfoUpdate
                 ))
 
             }
 
+            val validDesignates: Boolean = (tokenLockOut.R7[Coll[GroupElement]].get.size > 0)
+
             allOf(Coll(
                 validSelfRecreation,
-                validKeyInfoUpdate,
                 validKeyMint,
                 !isKeysCreated,
-                validSigmanautsFee(sigmanautsFeeOut)
+                validSigmanautsFee(sigmanautsFeeOut),
+                (validDesignates || true)
             ))
 
         }
@@ -238,7 +248,6 @@
 
     } else if (_action == 2) {
 
-        // This action allow only the benefactor to add more ERG or arbitrary tokens to the contract.
         val validFundTokenLockTx: Boolean = {
 
             // Outputs
@@ -279,7 +288,6 @@
 
     } else if (_action == 3) {
 
-        // This action allows the benefactor to redeem all the funds from the contract.
         val validBenefactorRedeemTx: Boolean = {
 
             // Outputs
@@ -311,7 +319,6 @@
 
     } else if (_action == 4) {
 
-        // This action is the same as action 3 but the beneficiary/redeemer is the key holder
         val validBeneficiaryRedeemTx: Boolean = {
 
             // Inputs
