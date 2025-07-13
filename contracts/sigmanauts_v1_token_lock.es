@@ -16,7 +16,7 @@
     // R5: (Coll[Byte], Long)                   (KeyId, KeyAmount) // Empty Coll[Byte]() and 0L initially.
     // R6: Long                                 Deadline // Must make sure that this value is greater than the creation-height of the token lock box.
     // R7: Coll[GroupElement]                   Designates // Empty Coll[GroupElement]() initially.
-    // R8: (Coll[Byte], Long)                   (OracleNFT, OracleValue) // The tuple can contain an empty Coll[Byte]() as the first argument.
+    // R8: (Coll[Coll[Byte]], Boolean)          (Coll(OracleNFT, OracleSerializedValue), isGreaterThan) // The tuple can contain an empty Coll[Coll[Byte]]() as the first argument.
     // R9: (Coll[Coll[Byte]], Long)             (Coll(ContractNameBytes, SigmanautsFeeAddressBytesHash), SigmanautsFee)
 
     // ===== Transactions ===== //
@@ -189,9 +189,7 @@
 
     val designates: Coll[GroupElement]              = SELF.R7[Coll[GroupElement]].get
 
-    val oracleInfo: (Coll[Byte], Coll[Byte])        = SELF.R8[(Coll[Byte], Long)].get
-    val oracleNFT: Coll[Byte]                       = oracleInfo._1
-    val oracleValue: Long                           = oracleInfo._2
+    val oracleInfo: (Coll[Byte], Coll[Byte])        = SELF.R8[(Coll[Coll[Byte]], Boolean)].get
 
     val contractInfo: (Coll[Coll[Byte]], Long)      = SELF.R9[(Coll[Coll[Byte]], Long)].get
     val contractNameBytes: Coll[Byte]               = contractInfo._1(0)
@@ -202,7 +200,7 @@
 
     val isKeysCreated: Boolean      = (keyAmount > 0L)
     val isDesignateRedeem: Boolean  = (designates.size > 0)
-    val isOracleRedeem: Boolean     = (oracleNFT.size > 0)
+    val isOracleRedeem: Boolean     = (oracleInfo._1.size > 0)
     val isDeadlineReached: Boolean  = (HEIGHT > deadline)
 
     if (_action == 1) {
@@ -221,7 +219,7 @@
                     (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
                     (tokenLockOut.R4[GroupElement].get == benefactorGE),
                     (tokenLockOut.R6[Long].get == deadline),
-                    (tokenLockOut.R8[(Coll[Byte], Long)].get == oracleInfo),
+                    (tokenLockOut.R8[(Coll[Coll[Byte]], Boolean)].get == oracleInfo),
                     (tokenLockOut.R9[(Coll[Coll[Byte]], Long)].get == contractInfo)
                 ))
 
@@ -317,7 +315,7 @@
                     (tokenLockOut.R5[(Coll[Byte], Long)].get == keyInfo),
                     (tokenLockOut.R6[Long].get == deadline),
                     (tokenLockOut.R7[Coll[GroupElement]].get == designates),
-                    (tokenLockOut.R8[(Coll[Byte], Long)].get == oracleInfo),
+                    (tokenLockOut.R8[(Coll[Coll[Byte]], Boolean)].get == oracleInfo),
                     (tokenLockOut.R9[(Coll[Coll[Byte]], Long)].get == contractInfo)
                 ))
 
@@ -413,9 +411,22 @@
                     val oracle: Box = CONTEXT.dataInputs(0)
                     val datapoint: Long = oracle.R4[Long].get // We assume oracle datapoint is only Long type for now.
 
+                    val oracleNFT: Coll[Byte] = oracleInfo._1(0)
+                    val oracleSerializedValue: Coll[Byte] = oracleInfo._1(1)
+                    val oracleValue: Long = byteArrayToLong(oracleSerializedValue)
+                    val isGreaterThan: Boolean = oracleInfo._2
+
                     val validOracle: Boolean = (oracle.tokens(0)._1 == oracleNFT)
                     
-                    val validThresholdReached: Boolean = (oracleValue >= datapoint)
+                    val validThresholdReached: Boolean = {
+
+                        if (isGreaterThan) {
+                            (datapoint >= oracleValue)
+                        } else {
+                            (datapoint <= oracleValue)
+                        }
+                        
+                    }
 
                     allOf(Coll(
                         validOracle,
