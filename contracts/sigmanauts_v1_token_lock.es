@@ -254,11 +254,28 @@
             val tokenLockOut: Box = OUTPUTS(0)
             val sigmanautsFeeOut: Box = OUTPUTS(1)
 
-            // Variables
-            val ergDelta: Long = (tokenLockOut.value - SELF.value)
-            val tokenIn: SELF.tokens.fold(0L, { (acc: Long, curr: (Coll[Byte], Long)) => acc + curr._2 })
-            val tokenOut: tokenLockOut.tokens.fold(0L, { (acc: Long, curr: (Coll[Byte], Long)) => acc + curr._2 })
-            val tokenDelta: (tokenOut - tokenIn)
+            val validErgDelta: Long = (tokenLockOut.value - SELF.value) >= 0L
+
+            val validTokenDelta: Boolean = tokenLockOut.tokens.forall({ (token: (Coll[Byte], Long)) =>
+                
+                val tokenId: Coll[Byte] = token._1
+                
+                val inputAmount: Long = SELF.tokens.fold(0L, { (sum: Long, t: (Coll[Byte], Long)) => 
+                    if (t._1 == tokenId) sum + t._2 else sum 
+                })
+                
+                val outputAmount: Long = tokenLockOut.tokens.fold(0L, { (sum: Long, t: (Coll[Byte], Long)) => 
+                    if (t._1 == tokenId) sum + t._2 else sum 
+                })
+                
+                // This works even if new tokens are added in the output that are not present in the input since inputAmount will therefore be 0.
+                // To make this function efficient, it is important that tokens of the same token id are kept in the same location, otherwise
+                // these sums will be computed multiple times for the same token id that is in different locations within the token array.
+                val delta: Long = (outputAmount - inputAmount)
+
+                (delta >= 0) // Should only return false if tokens are removed.
+            
+            })            
 
             val validSelfRecreation: Boolean = {
 
@@ -274,7 +291,11 @@
 
             }
 
-            val validFund: Boolean = (ergDelta > 0) || (tokenDelta > 0)
+            // If ergs are (not removed || added) and tokens are (not removed || added), we want this to pass.
+            // If ergs are removed but tokens are (not removed || added), we want this to fail.
+            // If ergs are (not removed || added) but tokens are removed, we want this to fail.
+            // If ergs are removed and tokens are removed, we want this to fail. 
+            val validFund: Boolean = (validErgDelta && validTokenDelta)
 
             allOf(Coll(
                 validSelfRecreation,
