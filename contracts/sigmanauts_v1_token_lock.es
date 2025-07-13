@@ -16,7 +16,7 @@
     // R5: (Coll[Byte], Long)                   (KeyId, KeyAmount) // Empty Coll[Byte]() and 0L initially.
     // R6: Long                                 Deadline // Must make sure that this value is greater than the creation-height of the token lock box.
     // R7: Coll[GroupElement]                   Designates // Empty Coll[GroupElement]() initially.
-    // R8: (Coll[Byte], Coll[Byte])             (OracleNFT, Coll(OracleType, OracleSerializedValue)) // Can be a tuple of empty Coll[Byte](). If not empty, OracleSerializedType must be a valid ErgoScript Numeric type and OracleSerializedValue must resolve to the same type.
+    // R8: (Coll[Byte], Long)                   (OracleNFT, OracleValue) // The tuple can contain an empty Coll[Byte]() as the first argument.
     // R9: (Coll[Coll[Byte]], Long)             (Coll(ContractNameBytes, SigmanautsFeeAddressBytesHash), SigmanautsFee)
 
     // ===== Transactions ===== //
@@ -76,7 +76,6 @@
     // def validKeyHolder: Box => Boolean
     // def validKeyHolderRecreation: (Box, Box) => Boolean
     // def validTokenLockBurn: Coll[Byte] => Boolean
-    // def validOracleValue: (Coll[Byte], Box) => Boolean
 
     def isSigmaPropEqualToBoxProp(propAndBox: (SigmaProp, Box)): Boolean = {
 
@@ -174,62 +173,6 @@
 
     }
 
-    def validOracleValue(oracle: (Coll[Byte], Box)): Boolean = {
-
-        val oracleType: Byte = oracle._1(0)
-        val oracleSerializedValue: Coll[Byte] = oracle._1.slice(1, oracle._1.size)
-        val oracleBox: Box = oracle._2 
-
-        // ===== Oracle Types ===== //
-        // 1 => Byte
-        // 2 => Short
-        // 3 => Int
-        // 4 => Long
-        // 5 => BigInt
-        // 6 => UnsignedBigInt
-            
-        if (oracleType == 1.toByte) {
-
-            val datapoint: Byte = oracleBox.R4[Byte].get
-            
-            (deserializeTo[Byte](oracleSerializedValue) >= datapoint)
-        
-        } else if (oracleType == 2.toByte) {
-
-            val datapoint: Short = oracleBox.R4[Short].get
-            
-            (deserializeTo[Short](oracleSerializedValue) >= datapoint) 
-
-        } else if (oracleType == 3.toByte) {
-
-            val datapoint: Byte = oracleBox.R4[Int].get
-            
-            (deserializeTo[Int](oracleSerializedValue) >= datapoint)
-
-        } else if (oracleType == 4.toByte) {
-
-            val datapoint: Long = oracleBox.R4[Long].get
-            
-            (deserializeTo[Long](oracleSerializedValue) >= datapoint)
-
-        } else if (oracleType == 5.toByte) {
-
-            val datapoint: BigInt = oracleBox.R4[BigInt].get
-            
-            (deserializeTo[BigInt](oracleSerializedValue) >= datapoint)
-
-        } else if (oracleType == 6.toByte) {
-
-            val datapoint: UnsignedBigInt = oracleBox.R4[UnsignedBigInt].get
-            
-            (deserializeTo[UnsignedBigInt](oracleSerializedValue) >= datapoint)
-
-        } else {
-            false
-        }        
-
-    }
-
     // ===== Variables ===== //
     val tokenLockId: Coll[Byte]                     = SELF.tokens(0)._1
     
@@ -244,10 +187,9 @@
 
     val designates: Coll[GroupElement]              = SELF.R7[Coll[GroupElement]].get
 
-    val oracleInfo: (Coll[Byte], Coll[Byte])        = SELF.R8[(Coll[Byte], Coll[Byte])].get
+    val oracleInfo: (Coll[Byte], Coll[Byte])        = SELF.R8[(Coll[Byte], Long)].get
     val oracleNFT: Coll[Byte]                       = oracleInfo._1
-    val oracleType: Byte                            = oracleInfo._2(0)
-    val oracleSerializedValue: Coll[Byte]           = oracleInfo._2.slice(1, oracleInfo._2.size)
+    val oracleValue: Long                           = oracleInfo._2
 
     val contractInfo: (Coll[Coll[Byte]], Long)      = SELF.R9[(Coll[Coll[Byte]], Long)].get
     val contractNameBytes: Coll[Byte]               = contractInfo._1(0)
@@ -277,7 +219,7 @@
                     (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
                     (tokenLockOut.R4[GroupElement].get == benefactorGE),
                     (tokenLockOut.R6[Long].get == deadline),
-                    (tokenLockOut.R8[(Coll[Byte], Coll[Byte])].get == oracleInfo),
+                    (tokenLockOut.R8[(Coll[Byte], Long)].get == oracleInfo),
                     (tokenLockOut.R9[(Coll[Coll[Byte]], Long)].get == contractInfo)
                 ))
 
@@ -373,7 +315,7 @@
                     (tokenLockOut.R5[(Coll[Byte], Long)].get == keyInfo),
                     (tokenLockOut.R6[Long].get == deadline),
                     (tokenLockOut.R7[Coll[GroupElement]].get == designates),
-                    (tokenLockOut.R8[(Coll[Byte], Coll[Byte])].get == oracleInfo),
+                    (tokenLockOut.R8[(Coll[Byte], Long)].get == oracleInfo),
                     (tokenLockOut.R9[(Coll[Coll[Byte]], Long)].get == contractInfo)
                 ))
 
@@ -467,11 +409,11 @@
                 if (isOracleRedeem) {
 
                     val oracle: Box = CONTEXT.dataInputs(0)
-                    val info: (Coll[Byte], Box) = (oracleInfo._2, oracle)
+                    val datapoint: Long = oracle.R4[Long].get // We assume oracle datapoint is only Long type for now.
 
                     val validOracle: Boolean = (oracle.tokens(0)._1 == oracleNFT)
                     
-                    val validThresholdReached: Boolean = validOracleValue(info)
+                    val validThresholdReached: Boolean = (oracleValue >= datapoint)
 
                     allOf(Coll(
                         validOracle,
