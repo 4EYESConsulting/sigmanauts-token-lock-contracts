@@ -262,12 +262,12 @@
 
             }
 
-            val validDesignates: Boolean = (tokenLockOut.R7[Coll[GroupElement]].get.size > 0)
+            val validDesignates: Boolean = (tokenLockOut.R7[Coll[GroupElement]].get.size > designates.size)
 
             allOf(Coll(
                 validSelfRecreation,
                 validKeyMint,
-                (validDesignates || true),
+                validDesignates,
                 validSigmanautsFee(sigmanautsFeeOut),
                 !isKeysCreated
             ))
@@ -301,9 +301,8 @@
                 // This works even if new tokens are added in the output that are not present in the input since inputAmount will therefore be 0.
                 // To make this function efficient, it is important that tokens of the same token id are kept in the same location, otherwise
                 // these sums will be computed multiple times for the same token id that is in different locations within the token array.
-                val delta: Long = (outputAmount - inputAmount)
-
-                (delta >= 0) // Should only return false if tokens are removed.
+                
+                (outputAmount >= inputAmount) // Should only return false if tokens are removed.
             
             })            
 
