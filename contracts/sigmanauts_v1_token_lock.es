@@ -75,7 +75,7 @@
     // ===== Functions ===== //
     // def isSigmaPropEqualToBoxProp: (SigmaProp, Box) => Boolean
     // def validSigmanautsFee: Box => Boolean
-    // def validKeyHolder: Box => Boolean
+    // def validKeyHolderInput: Box => Boolean
     // def validKeyHolderRecreation: (Box, Box) => Boolean
     // def validTokenLockBurn: Coll[Byte] => Boolean
 
@@ -106,20 +106,18 @@
         val contractInfo: (Coll[Coll[Byte]], Long)      = SELF.R9[(Coll[Coll[Byte]], Long)].get
         val sigmanautsFeeAddressBytesHash: Coll[Byte]   = contractInfo._1(1)
         val sigmanautsFee: Long                         = contractInfo._2
-        
-        allOf(Coll(
-            (feeBox.value >= sigmanautsFee),
-            (blake2b256(feeBox.propositionBytes) == sigmanautsFeeAddressBytesHash)
-        ))
+    
+        (feeBox.value >= sigmanautsFee) &&
+        (blake2b256(feeBox.propositionBytes) == sigmanautsFeeAddressBytesHash)
 
     }
 
-    def validKeyHolder(holder: Box): Boolean = {
+    def validKeyHolderInput(holderInput: Box): Boolean = {
 
         val keyInfo: (Coll[Byte], Long) = SELF.R5[(Coll[Byte], Long)].get
         val keyId: Coll[Byte] = keyInfo._1
 
-        holder.tokens.exists({ (token: (Coll[Byte], Long)) => {
+        holderInput.tokens.exists({ (token: (Coll[Byte], Long)) => {
 
             (token._1 == keyId)
 
@@ -139,11 +137,9 @@
         // We want to ignore the token lock id NFT.
         val validTokens: Boolean = if (SELF.tokens.size > 1) (holderOut.tokens == SELF.tokens.slice(1, SELF.tokens.size)) else true
 
-        allOf(Coll(
-            validErg,
-            validProps,
-            validTokens
-        ))
+        validErg &&
+        validProps &&
+        validTokens
 
     }    
 
@@ -167,10 +163,8 @@
 
             }
 
-            allOf(Coll(
-                validTokenLockIdBurn,
-                validTokenLockDestruction
-            ))
+            validTokenLockIdBurn &&
+            validTokenLockDestruction
 
         }})
 
@@ -212,70 +206,71 @@
 
         val validCreateTokenLockKeysTx: Boolean = {
 
-            // Outputs
-            val tokenLockOut: Box       = OUTPUTS(0)
-            val issuanceOut: Box        = OUTPUTS(1)
-            val sigmanautsFeeOut: Box   = OUTPUTS(2)
+            if (!isKeysCreated) {
 
-            val validSelfRecreation: Boolean = {
+                // Outputs
+                val tokenLockOut: Box       = OUTPUTS(0)
+                val issuanceOut: Box        = OUTPUTS(1)
+                val sigmanautsFeeOut: Box   = OUTPUTS(2)
 
-                allOf(Coll(
-                    (tokenLockOut.value == SELF.value),
-                    (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
-                    (tokenLockOut.R4[GroupElement].get == benefactorGE),
-                    (tokenLockOut.R6[(Long, Long)].get == protocolValues),
-                    (tokenLockOut.R8[(Coll[Byte], Boolean)].get == oracleInfo),
-                    (tokenLockOut.R9[(Coll[Coll[Byte]], Long)].get == contractInfo)
-                ))
-
-            }
-
-            val validKeyMint: Boolean = {
-
-                val outKeyAmount: Long = issuanceOut.tokens(0)._2
-
-                // This check ensures only one box contains the minted tokens.
-                val validIssuanceUniqueness: Boolean = {
-
-                    OUTPUTS.filter({ (output: Box) => 
-                        output.tokens.exists({ (token: (Coll[Byte], Long)) => 
-                            (token._1 == SELF.id) 
-                        }) 
-                    }).size == 1
-
-                }
-
-                val validIssuanceMint: Boolean = {
+                val validSelfRecreation: Boolean = {
 
                     allOf(Coll(
-                        (issuanceOut.tokens(0)._1 == SELF.id),
-                        (outKeyAmount > 0L)
+                        (tokenLockOut.value == SELF.value),
+                        (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
+                        (tokenLockOut.R4[GroupElement].get == benefactorGE),
+                        (tokenLockOut.R6[(Long, Long)].get == protocolValues),
+                        (tokenLockOut.R8[(Coll[Byte], Boolean)].get == oracleInfo),
+                        (tokenLockOut.R9[(Coll[Coll[Byte]], Long)].get == contractInfo)
                     ))
 
                 }
 
-                val validKeyInfoUpdate: Boolean = (tokenLockOut.R5[(Coll[Byte], Long)].get == (SELF.id, outKeyAmount))
+                val validKeyMint: Boolean = {
 
-                val propAndBox: (SigmaProp, Box) = (benefactorSigmaProp, issuanceOut)
+                    val outKeyAmount: Long = issuanceOut.tokens(0)._2
 
-                allOf(Coll(
-                    isSigmaPropEqualToBoxProp(propAndBox), // We follow EIP-4 asset standard using the benefator's box.
-                    validIssuanceUniqueness,
-                    validIssuanceMint,
+                    // This check ensures only one box contains the minted tokens.
+                    val validIssuanceUniqueness: Boolean = {
+
+                        OUTPUTS.filter({ (output: Box) => 
+                            output.tokens.exists({ (token: (Coll[Byte], Long)) => 
+                                (token._1 == SELF.id) 
+                            }) 
+                        }).size == 1
+
+                    }
+
+                    val validIssuanceMint: Boolean = {
+
+                        allOf(Coll(
+                            (issuanceOut.tokens(0)._1 == SELF.id),
+                            (outKeyAmount > 0L)
+                        ))
+
+                    }
+
+                    val validKeyInfoUpdate: Boolean = (tokenLockOut.R5[(Coll[Byte], Long)].get == (SELF.id, outKeyAmount))
+
+                    val propAndBox: (SigmaProp, Box) = (benefactorSigmaProp, issuanceOut)
+
+                    isSigmaPropEqualToBoxProp(propAndBox) && // We follow EIP-4 asset standard using the benefator's box.
+                    validIssuanceUniqueness &&
+                    validIssuanceMint &&
                     validKeyInfoUpdate
-                ))
 
+                }
+
+                val validDesignates: Boolean = (tokenLockOut.R7[Coll[GroupElement]].get.size >= designates.size)
+
+                validSelfRecreation &&
+                validKeyMint &&
+                validDesignates &&
+                validSigmanautsFee(sigmanautsFeeOut)
+
+            } else {
+                false
             }
-
-            val validDesignates: Boolean = (tokenLockOut.R7[Coll[GroupElement]].get.size > designates.size)
-
-            allOf(Coll(
-                validSelfRecreation,
-                validKeyMint,
-                validDesignates,
-                validSigmanautsFee(sigmanautsFeeOut),
-                !isKeysCreated
-            ))
 
         }
 
@@ -331,11 +326,9 @@
             // If ergs are removed and tokens are removed, we want this to fail. 
             val validFund: Boolean = (validErgDelta && validTokenDelta)
 
-            allOf(Coll(
-                validSelfRecreation,
-                validFund,
-                validSigmanautsFee(sigmanautsFeeOut)
-            ))               
+            validSelfRecreation &&
+            validFund &&
+            validSigmanautsFee(sigmanautsFeeOut)         
 
         }
 
@@ -343,111 +336,94 @@
 
     } else if (_action == 3) {
 
-        val validRedeemTokenLockDesignateRedeemTx: Boolean = {
-
-            // Inputs
-            val designateIn: Box = INPUTS(1)
-
-            // Outputs
-            val designateOut: Box = OUTPUTS(0)
-            val sigmanautsFeeOut: Box = OUTPUTS(1)
-
-            // Variables
-            val designateGroupElement: Coll[GroupElement] = designates.filter({ (designate: GroupElement) => 
-
-                val designateProp: SigmaProp = proveDlog(designate)
-                val propAndBox: (SigmaProp, Box) = (designateProp, designateIn)
-
-                isSigmaPropEqualToBoxProp(propAndBox)
-
-            })
-
-            val validDesignateIn: Boolean = {
-
-                // 1. They exist in the designate array.
-                // 2. They hold the key.
-
-                val validDesignateExists: Boolean = (designateGroupElement.size == 1)
-
-                allOf(Coll(
-                    validDesignateExists,
-                    validKeyHolder(designateIn)
-                ))
-
-            }
-
-            val holder: (Box, Box) = (designateIn, designateOut)
-            val validDesignateOut: Boolean = validKeyHolderRecreation(holder)
-
-            allOf(Coll(
-                validDesignateIn,
-                validDesignateOut,
-                validTokenLockBurn(tokenLockId),
-                validSigmanautsFee(sigmanautsFeeOut),
-                isKeysCreated,
-                isDesignateRedeem
-            ))
-            
-        }
-
-        sigmaProp(validRedeemTokenLockDesignateRedeemTx)
-
-    } else if (_action == 4) {
-
         val validRedeemTokenLockTx: Boolean = {
+                
+            if (isKeysCreated) {
 
-            // Inputs
-            val keyHolderIn: Box = INPUTS(1)
+                // Inputs
+                val keyHolderIn: Box = INPUTS(1)
 
-            // Outputs
-            val keyHolderOut: Box = OUTPUTS(0)
-            val sigmanautsFeeOut: Box = OUTPUTS(1)
+                // Outputs
+                val keyHolderOut: Box = OUTPUTS(0)
+                val sigmanautsFeeOut: Box = OUTPUTS(1)
 
-            val validKeyHolderIn: Boolean = validKeyHolder(keyHolderIn)
-
-            val holder: (Box, Box) = (keyHolderIn, keyHolderOut)
-            val validKeyHolderOut: Boolean = validKeyHolderRecreation(holder)
-
-            val validOracleRedeem: Boolean = {
-
-                if (isOracleRedeem) {
-
-                    val oracle: Box = CONTEXT.dataInputs(0)
-                    val datapoint: Long = oracle.R4[Long].get // We assume oracle datapoint is only Long type for now.
-
-                    val validOracle: Boolean = (oracle.tokens(0)._1 == oracleNFT)
+                val validKeyHolder: Boolean = {
                     
-                    val validThresholdReached: Boolean = {
+                    val holder: (Box, Box) = (keyHolderIn, keyHolderOut)
 
-                        if (isGreaterThan) {
-                            (datapoint >= oracleValue)
-                        } else {
-                            (datapoint <= oracleValue)
-                        }
-                        
-                    }
+                    validKeyHolderInput(keyHolderIn) &&
+                    validKeyHolderRecreation(holder)
 
-                    allOf(Coll(
-                        validOracle,
-                        validThresholdReached
-                    ))
-
-                } else {
-                    true
                 }
 
+                val validOracleRedeem: Boolean = {
+
+                    if (isOracleRedeem) {
+
+                        val oracle: Box = CONTEXT.dataInputs(0)
+                        val datapoint: Long = oracle.R4[Long].get // We assume oracle datapoint is only Long type for now.
+
+                        val validOracle: Boolean = (oracle.tokens(0)._1 == oracleNFT)
+                        
+                        val validThresholdReached: Boolean = {
+
+                            if (isGreaterThan) {
+                                
+                                (datapoint >= oracleValue)
+                            
+                            } else {
+                            
+                                (datapoint <= oracleValue)
+                            
+                            }
+                            
+                        }
+
+                        validOracle &&
+                        validThresholdReached
+
+                    } else {
+                        false
+                    }
+
+                }
+
+                val validDesignateRedeem: Boolean = {
+
+                    if (isDesignateRedeem) {
+
+                        designates.exists({ (designate: GroupElement) => 
+
+                            val designateProp: SigmaProp = proveDlog(designate)
+                            val propAndBox: (SigmaProp, Box) = (designateProp, keyHolderIn)
+
+                            isSigmaPropEqualToBoxProp(propAndBox)
+
+                        })
+
+                    } else {
+                        false
+                    }
+
+                }
+
+                val validRedeemOption: Boolean = {
+
+                    isDeadlineReached ||                            // Option 1
+                    (isDeadlineReached && validOracleRedeem) ||     // Option 2
+                    validDesignateRedeem                            // Option 3
+
+                }
+
+                validRedeemOption &&
+                validKeyHolder &&
+                validTokenLockBurn(tokenLockId) &&
+                validSigmanautsFee(sigmanautsFeeOut)
+
+            } else {
+                false
             }
-
-            allOf(Coll(
-                validKeyHolderIn,
-                validKeyHolderOut,
-                validTokenLockBurn(tokenLockId),
-                validSigmanautsFee(sigmanautsFeeOut),
-                isKeysCreated,
-                isDeadlineReached,
-                validOracleRedeem
-            ))           
-
+        
         }
 
         sigmaProp(validRedeemTokenLockTx)
@@ -455,5 +431,6 @@
     } else {
         sigmaProp(false)
     }   
-    
+
 }
+
