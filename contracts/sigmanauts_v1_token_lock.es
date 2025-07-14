@@ -136,6 +136,7 @@
 
         val validProps: Boolean = (holderOut.propositionBytes == holderIn.propositionBytes)
 
+        // We want to ignore the token lock id NFT.
         val validTokens: Boolean = if (SELF.tokens.size > 1) (holderOut.tokens == SELF.tokens.slice(1, SELF.tokens.size)) else true
 
         allOf(Coll(
@@ -288,7 +289,7 @@
             val tokenLockOut: Box = OUTPUTS(0)
             val sigmanautsFeeOut: Box = OUTPUTS(1)
 
-            val validErgDelta: Long = (tokenLockOut.value - SELF.value) >= 0L
+            val validErgDelta: Long = (tokenLockOut.value >= SELF.value)
 
             val validTokenDelta: Boolean = tokenLockOut.tokens.forall({ (token: (Coll[Byte], Long)) =>
                 
