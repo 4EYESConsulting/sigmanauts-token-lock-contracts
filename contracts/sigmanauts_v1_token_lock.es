@@ -199,8 +199,8 @@
 
     val isKeysCreated: Boolean      = (keyAmount > 0L)
     val isDesignateRedeem: Boolean  = (designates.size > 0)
-    val isOracleRedeem: Boolean     = (oracleNFT.size > 0)
     val isDeadlineReached: Boolean  = (HEIGHT > deadline)
+    val isOracleRedeem: Boolean     = (oracleNFT.size > 0) && (CONTEXT.dataInput(0).size == 1)
 
     if (_action == 1) {
 
@@ -356,7 +356,26 @@
 
                 }
 
-                val validOracleRedeem: Boolean = {
+                val validDesignateRedeem: Boolean = {
+
+                    if (isDesignateRedeem) {
+
+                        designates.exists({ (designate: GroupElement) => 
+
+                            val designateProp: SigmaProp = proveDlog(designate)
+                            val propAndBox: (SigmaProp, Box) = (designateProp, keyHolderIn)
+
+                            isSigmaPropEqualToBoxProp(propAndBox)
+
+                        })
+
+                    } else {
+                        false
+                    }
+
+                }
+
+               val validOracleRedeem: Boolean = {
 
                     if (isOracleRedeem) {
 
@@ -386,32 +405,13 @@
                         false
                     }
 
-                }
-
-                val validDesignateRedeem: Boolean = {
-
-                    if (isDesignateRedeem) {
-
-                        designates.exists({ (designate: GroupElement) => 
-
-                            val designateProp: SigmaProp = proveDlog(designate)
-                            val propAndBox: (SigmaProp, Box) = (designateProp, keyHolderIn)
-
-                            isSigmaPropEqualToBoxProp(propAndBox)
-
-                        })
-
-                    } else {
-                        false
-                    }
-
-                }
+                }                
 
                 val validRedeemOption: Boolean = {
 
-                    isDeadlineReached ||                            // Option 1
-                    (isDeadlineReached && validOracleRedeem) ||     // Option 2
-                    validDesignateRedeem                            // Option 3
+                    validDesignateRedeem                       ||    
+                    (isDeadlineReached && validOracleRedeem)   ||
+                    isDeadlineReached                            
 
                 }
 
