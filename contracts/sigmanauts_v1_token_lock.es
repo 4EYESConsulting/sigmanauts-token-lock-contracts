@@ -200,7 +200,7 @@
     val isKeysCreated: Boolean      = (keyAmount > 0L)
     val isDesignateRedeem: Boolean  = (designates.size > 0)
     val isDeadlineReached: Boolean  = (HEIGHT > deadline)
-    val isOracleRedeem: Boolean     = (oracleNFT.size > 0) && (CONTEXT.dataInput(0).size == 1)
+    val isOracleRedeem: Boolean     = (oracleNFT.size > 0) && (CONTEXT.dataInputs.size >= 1)
 
     if (_action == 1) {
 
@@ -408,10 +408,9 @@
                 }                
 
                 val validRedeemOption: Boolean = {
-
-                    validDesignateRedeem                       ||    
-                    (isDeadlineReached && validOracleRedeem)   ||
-                    isDeadlineReached                            
+  
+                    (isDeadlineReached || validOracleRedeem) ||
+                    validDesignateRedeem
 
                 }
 
