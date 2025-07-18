@@ -14,7 +14,7 @@
     // Registers
     // R4: GroupElement                         BenefactorGE
     // R5: (Coll[Byte], Long)                   (KeyId, KeyAmount) // Empty Coll[Byte]() and 0L initially.
-    // R6: (Long, Long)                         (Deadline, OracleValue) // Deadline must be greater than the creation-height of the token lock box. OracleValue can be set to any valid Long value, if oracle option is not used this will be determined by OracleNFT.
+    // R6: (Int, Long)                          (Deadline, OracleValue) // Deadline must be greater than the creation-height of the token lock box. OracleValue can be set to any valid Long value, if oracle option is not used this will be determined by OracleNFT.
     // R7: Coll[GroupElement]                   Designates // Empty Coll[GroupElement]() initially.
     // R8: (Coll[Byte], Boolean)                (OracleNFT, isGreaterThan) // The tuple can contain an empty Coll[Coll[Byte]]() as the first argument.
     // R9: (Coll[Coll[Byte]], Long)             (Coll(ContractNameBytes, SigmanautsFeeAddressBytesHash), SigmanautsFee)
@@ -180,8 +180,8 @@
     val keyId: Coll[Byte]                           = keyInfo._1
     val keyAmount: Long                             = keyInfo._2
 
-    val protocolValues: Long                        = SELF.R6[(Long, Long)].get
-    val deadline: Long                              = protocolValues._1
+    val protocolValues: (Int, Long)                 = SELF.R6[(Int, Long)].get
+    val deadline: Int                               = protocolValues._1
     val oracleValue: Long                           = protocolValues._2
 
     val designates: Coll[GroupElement]              = SELF.R7[Coll[GroupElement]].get
@@ -219,7 +219,7 @@
                         (tokenLockOut.value == SELF.value),
                         (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
                         (tokenLockOut.R4[GroupElement].get == benefactorGE),
-                        (tokenLockOut.R6[(Long, Long)].get == protocolValues),
+                        (tokenLockOut.R6[(Int, Long)].get == protocolValues),
                         (tokenLockOut.R8[(Coll[Byte], Boolean)].get == oracleInfo),
                         (tokenLockOut.R9[(Coll[Coll[Byte]], Long)].get == contractInfo)
                     ))
@@ -312,7 +312,7 @@
                     (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
                     (tokenLockOut.R4[GroupElement].get == benefactorGE),
                     (tokenLockOut.R5[(Coll[Byte], Long)].get == keyInfo),
-                    (tokenLockOut.R6[(Long, Long)].get == protocolValues),
+                    (tokenLockOut.R6[(Int, Long)].get == protocolValues),
                     (tokenLockOut.R7[Coll[GroupElement]].get == designates),
                     (tokenLockOut.R8[(Coll[Byte], Boolean)].get == oracleInfo),
                     (tokenLockOut.R9[(Coll[Coll[Byte]], Long)].get == contractInfo)
