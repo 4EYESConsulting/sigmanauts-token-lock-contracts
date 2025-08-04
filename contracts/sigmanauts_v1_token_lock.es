@@ -25,8 +25,8 @@
     // Description: The benefactor will create keys that can be used to redeem funds from the token lock box.
     //              An arbitrary amount of keys can be minted and each will have the same token id. 
     //              Redeeming is an all-or-nothing action.
-    // Inputs: TokenLock, Benefactor
     // Data Inputs: None
+    // Inputs: TokenLock, Benefactor
     // Outputs: TokenLock, Benefactor, SigmanautsFee
     // Context Variables: Action
 
@@ -58,7 +58,7 @@
     // Description: When creating the token lock, it is possible to set the condition for key holder redemption
     //              to depend on some threshold value determined by an oracle datapoint. The contract is
     //              designed to be agnostic to the oracle used, with the only condition being that the datapoint
-    //              must be a valid ErgoScript Numeric type. The condition that the deadline height is reached must also apply.
+    //              must be a Long type. The condition that the deadline height is reached must also apply.
     // DataInputs: OracleDatapoint
     // Inputs: TokenLock, KeyHolder
     // Outputs: KeyHolder, SigmanautsFee
@@ -196,7 +196,6 @@
     val _action: Int                                = getVar[Int](0).get
 
     val isKeysCreated: Boolean      = (keyAmount > 0L)
-    val isDesignateRedeem: Boolean  = (designates.size > 0)
     val isDeadlineReached: Boolean  = (HEIGHT > deadline)
     val isOracleRedeem: Boolean     = (oracleNFT.size > 0) && (CONTEXT.dataInputs.size >= 1)
 
@@ -356,8 +355,6 @@
 
                 val validDesignateRedeem: Boolean = {
 
-                    if (isDesignateRedeem) {
-
                         designates.exists({ (designate: GroupElement) => 
 
                             val designateProp: SigmaProp = proveDlog(designate)
@@ -366,10 +363,6 @@
                             isSigmaPropEqualToBoxProp(propAndBox)
 
                         })
-
-                    } else {
-                        false
-                    }
 
                 }
 
