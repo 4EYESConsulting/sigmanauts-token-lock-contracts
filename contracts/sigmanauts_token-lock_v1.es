@@ -297,7 +297,7 @@
             val validSelfRecreation: Boolean = {
 
                 allOf(Coll(
-                    (tokenLockOut.tokens._1 == tokenLockId),
+                    (tokenLockOut.tokens(0)._1 == tokenLockId),
                     (tokenLockOut.R4[GroupElement].get == benefactorGE),
                     (tokenLockOut.R5[(Coll[Byte], Long)].get == keyInfo),
                     (tokenLockOut.R6[(Int, Long)].get == protocolValues),
