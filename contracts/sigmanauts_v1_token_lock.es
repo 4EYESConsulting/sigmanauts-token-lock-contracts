@@ -85,17 +85,7 @@
         val propBytes: Coll[Byte] = prop.propBytes
         val treeBytes: Coll[Byte] = box.propositionBytes
 
-        if (treeBytes(0) == 0) {
-
-            (treeBytes == propBytes)
-
-        } else {
-
-            // offset = 1 + <number of VLQ encoded bytes to store propositionBytes.size>
-            val offset = if (treeBytes.size > 127) 3 else 2
-            (propBytes.slice(1, propBytes.size) == treeBytes.slice(offset, treeBytes.size))
-
-        }
+        (propBytes.slice(1, propBytes.size) == treeBytes.slice(1, treeBytes.size))
 
     }
 
@@ -214,7 +204,7 @@
 
                     allOf(Coll(
                         (tokenLockOut.value == SELF.value),
-                        (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
+                        (tokenLockOut.tokens(0)._1 == tokenLockId),
                         (tokenLockOut.R4[GroupElement].get == benefactorGE),
                         (tokenLockOut.R6[(Int, Long)].get == protocolValues),
                         (tokenLockOut.R8[(Coll[Byte], Boolean)].get == oracleInfo),
@@ -240,6 +230,7 @@
 
                     val validIssuanceMint: Boolean = {
 
+                        // We follow EIP-4 asset standard using the benefator's box.
                         allOf(Coll(
                             (issuanceOut.tokens(0)._1 == SELF.id),
                             (outKeyAmount > 0L)
@@ -251,9 +242,9 @@
 
                     val propAndBox: (SigmaProp, Box) = (benefactorSigmaProp, issuanceOut)
 
-                    isSigmaPropEqualToBoxProp(propAndBox) && // We follow EIP-4 asset standard using the benefator's box.
+                    isSigmaPropEqualToBoxProp(propAndBox) &&
                     validIssuanceUniqueness &&
-                    validIssuanceMint &&
+                    validIssuanceMint && 
                     validKeyInfoUpdate
 
                 }
@@ -306,7 +297,7 @@
             val validSelfRecreation: Boolean = {
 
                 allOf(Coll(
-                    (tokenLockOut.tokens(0) == (tokenLockId, 1L)),
+                    (tokenLockOut.tokens._1 == tokenLockId),
                     (tokenLockOut.R4[GroupElement].get == benefactorGE),
                     (tokenLockOut.R5[(Coll[Byte], Long)].get == keyInfo),
                     (tokenLockOut.R6[(Int, Long)].get == protocolValues),
